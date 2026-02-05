@@ -14,19 +14,19 @@
     }
 
     :root {
-      --primary: #00d4aa;
-      --primary-dim: #00a888;
-      --primary-glow: rgba(0, 212, 170, 0.3);
+      --primary: #ff8c00;
+      --primary-dim: #e67e00;
+      --primary-glow: rgba(255, 140, 0, 0.3);
       --btc: #f7931a;
       --eth: #627eea;
       --sol: #9945ff;
       --usdc: #2775ca;
-      --bg: #0a0a0a;
-      --bg-light: #111;
-      --border: #1a1a1a;
-      --text: #fff;
-      --text-dim: #888;
-      --text-muted: #444;
+      --bg: #ffffff;
+      --bg-light: #f8f8f8;
+      --border: #e5e5e5;
+      --text: #1a1a1a;
+      --text-dim: #555;
+      --text-muted: #999;
     }
 
     body {
@@ -52,8 +52,8 @@
       pointer-events: none;
       background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.15) 1px,
+        rgba(0, 0, 0, 0.02),
+        rgba(0, 0, 0, 0.02) 1px,
         transparent 1px,
         transparent 2px
       );
@@ -405,7 +405,7 @@
 <body>
   <nav>
     <a href="/" class="logo">
-      <img src="/logo.jpg" alt="Cryptoployed" class="logo-img">
+      <img src="/logo.png" alt="Cryptoployed" class="logo-img">
       CRYPTOPLOYED
     </a>
     <div class="nav-links">
@@ -551,9 +551,9 @@
     }
 
     setTimeout(() => {
-      animateValue('totalPaid', 0, 12500, 2000, '$', '');
-      animateValue('tasksCompleted', 0, 847, 2000);
-      animateValue('activeWorkers', 0, 156, 2000);
+      animateValue('totalPaid', 0, 342, 2000, '$', '');
+      animateValue('tasksCompleted', 0, 47, 2000);
+      animateValue('activeWorkers', 0, 12, 2000);
     }, 500);
   </script>
 </body>
