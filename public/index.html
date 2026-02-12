@@ -642,21 +642,21 @@
       </div>
     </section>
 
-    <div class="crypto-ticker">
+    <div class="crypto-ticker" id="cryptoTicker">
       <div class="ticker-item">
         <span class="ticker-symbol">BTC</span>
-        <span class="ticker-price">$97,432</span>
-        <span class="ticker-change">+2.4%</span>
+        <span class="ticker-price" id="price-btc">loading...</span>
+        <span class="ticker-change" id="change-btc"></span>
       </div>
       <div class="ticker-item">
         <span class="ticker-symbol">ETH</span>
-        <span class="ticker-price">$2,847</span>
-        <span class="ticker-change">+1.8%</span>
+        <span class="ticker-price" id="price-eth">loading...</span>
+        <span class="ticker-change" id="change-eth"></span>
       </div>
       <div class="ticker-item">
         <span class="ticker-symbol">SOL</span>
-        <span class="ticker-price">$198</span>
-        <span class="ticker-change negative">-0.5%</span>
+        <span class="ticker-price" id="price-sol">loading...</span>
+        <span class="ticker-change" id="change-sol"></span>
       </div>
       <div class="ticker-item">
         <span class="ticker-symbol">USDC</span>
@@ -872,20 +872,36 @@
     // Add new activity periodically
     setInterval(addActivity, 4000 + Math.random() * 3000);
 
-    // Update ticker prices slightly
-    setInterval(() => {
-      document.querySelectorAll('.ticker-price').forEach(el => {
-        if (el.textContent.includes('$1.00')) return;
-        const current = parseFloat(el.textContent.replace(/[$,]/g, ''));
-        const change = current * (Math.random() * 0.002 - 0.001);
-        const newVal = current + change;
-        if (newVal > 1000) {
-          el.textContent = '$' + newVal.toLocaleString(undefined, {maximumFractionDigits: 0});
-        } else {
-          el.textContent = '$' + newVal.toFixed(0);
-        }
-      });
-    }, 3000);
+    // Fetch live crypto prices
+    async function fetchPrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
+        const data = await res.json();
+        
+        // BTC
+        document.getElementById('price-btc').textContent = '$' + data.bitcoin.usd.toLocaleString(undefined, {maximumFractionDigits: 0});
+        const btcChange = data.bitcoin.usd_24h_change.toFixed(1);
+        document.getElementById('change-btc').textContent = (btcChange >= 0 ? '+' : '') + btcChange + '%';
+        document.getElementById('change-btc').className = 'ticker-change' + (btcChange < 0 ? ' negative' : '');
+        
+        // ETH
+        document.getElementById('price-eth').textContent = '$' + data.ethereum.usd.toLocaleString(undefined, {maximumFractionDigits: 0});
+        const ethChange = data.ethereum.usd_24h_change.toFixed(1);
+        document.getElementById('change-eth').textContent = (ethChange >= 0 ? '+' : '') + ethChange + '%';
+        document.getElementById('change-eth').className = 'ticker-change' + (ethChange < 0 ? ' negative' : '');
+        
+        // SOL
+        document.getElementById('price-sol').textContent = '$' + data.solana.usd.toLocaleString(undefined, {maximumFractionDigits: 2});
+        const solChange = data.solana.usd_24h_change.toFixed(1);
+        document.getElementById('change-sol').textContent = (solChange >= 0 ? '+' : '') + solChange + '%';
+        document.getElementById('change-sol').className = 'ticker-change' + (solChange < 0 ? ' negative' : '');
+      } catch (e) {
+        console.log('Failed to fetch prices:', e);
+      }
+    }
+    
+    fetchPrices();
+    setInterval(fetchPrices, 30000); // Refresh every 30s
   </script>
 </body>
 </html>
