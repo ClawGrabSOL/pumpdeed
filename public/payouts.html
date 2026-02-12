@@ -3,215 +3,325 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payouts | Cryptoployed</title>
+  <title>Payouts | AIployer</title>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --primary: #ff8c00;
-      --primary-dim: #e67e00;
-      --primary-glow: rgba(255, 140, 0, 0.3);
-      --btc: #f7931a;
-      --eth: #627eea;
-      --sol: #9945ff;
-      --usdc: #2775ca;
-      --bg: #ffffff;
-      --bg-light: #f8f8f8;
-      --border: #e5e5e5;
-      --text: #1a1a1a;
-      --text-dim: #555;
-      --text-muted: #999;
-      --green: #22c55e;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --accent: #22d3ee;
+      --accent-green: #10b981;
+      --bg: #030712;
+      --bg-card: #111827;
+      --border: #1f2937;
+      --border-light: #374151;
+      --text: #f9fafb;
+      --text-dim: #9ca3af;
+      --text-muted: #6b7280;
+      --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
     }
-    body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--primary); min-height: 100vh; }
-    body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 2px); z-index: 1000; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
-    .logo { font-size: 18px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-    .logo-img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--primary); }
-    .nav-links { display: flex; gap: 30px; }
-    .nav-links a { color: #666; text-decoration: none; font-size: 14px; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-    .container { max-width: 900px; margin: 0 auto; padding: 60px 20px; }
-    .section-label { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
-    h1 { font-size: 24px; font-weight: 600; color: var(--primary); margin-bottom: 10px; }
-    .subtitle { color: var(--text-dim); font-size: 14px; margin-bottom: 40px; }
-    .treasury-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
-    .treasury-card { background: var(--bg-light); border: 1px solid var(--border); padding: 20px; text-align: center; transition: all 0.3s; }
-    .treasury-card:hover { border-color: var(--primary); }
-    .treasury-card .icon { font-size: 24px; margin-bottom: 10px; }
-    .treasury-card.btc .icon { color: var(--btc); }
-    .treasury-card.eth .icon { color: var(--eth); }
-    .treasury-card.sol .icon { color: var(--sol); }
-    .treasury-card.usdc .icon { color: var(--usdc); }
-    .treasury-card .balance { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
-    .treasury-card .label { font-size: 10px; color: var(--text-muted); }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
-    .stat-card { background: var(--bg-light); border: 1px solid var(--border); padding: 25px; text-align: center; }
-    .stat-value { font-size: 24px; font-weight: 600; color: var(--primary); }
-    .stat-value.green { color: var(--green); }
-    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
-    h2 { font-size: 18px; color: var(--primary); margin-bottom: 20px; }
-    .payouts-list { display: flex; flex-direction: column; gap: 2px; }
-    .payout-row { display: grid; grid-template-columns: 1fr 2fr 80px 100px 80px; gap: 15px; padding: 15px 20px; background: var(--bg-light); border: 1px solid var(--border); font-size: 13px; align-items: center; }
-    .payout-row:hover { border-color: var(--primary); }
-    .payout-row.header { background: var(--bg); font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-    .payout-row.header:hover { border-color: var(--border); }
-    .payout-time { color: var(--text-muted); }
-    .payout-task { color: var(--text-dim); }
-    .payout-currency { text-align: center; }
-    .payout-currency .badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; }
-    .payout-currency .badge.btc { background: rgba(247, 147, 26, 0.2); color: var(--btc); }
-    .payout-currency .badge.eth { background: rgba(98, 126, 234, 0.2); color: var(--eth); }
-    .payout-currency .badge.sol { background: rgba(153, 69, 255, 0.2); color: var(--sol); }
-    .payout-currency .badge.usdc { background: rgba(39, 117, 202, 0.2); color: var(--usdc); }
-    .payout-amount { color: var(--green); font-weight: 600; text-align: right; }
-    .payout-tx { text-align: right; }
-    .payout-tx a { color: var(--text-muted); text-decoration: none; font-size: 11px; }
-    .payout-tx a:hover { color: var(--primary); }
-    .live-indicator { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--green); margin-bottom: 20px; }
-    .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: livePulse 2s infinite; }
-    @keyframes livePulse { 0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--green); } 50% { opacity: 0.5; box-shadow: none; } }
-    @media (max-width: 768px) { nav { flex-direction: column; gap: 20px; } .stats-row, .treasury-grid { grid-template-columns: repeat(2, 1fr); } .payout-row { grid-template-columns: 1fr 1fr; gap: 10px; } .payout-row.header { display: none; } }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: white; }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+    }
+    .page-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .page-header p {
+      color: var(--text-dim);
+    }
+
+    .pool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .pool-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .pool-balance {
+      font-size: 48px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pool-address {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      font-family: monospace;
+    }
+    .pool-address a {
+      color: var(--primary-light);
+      text-decoration: none;
+    }
+    .pool-address a:hover {
+      text-decoration: underline;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    .payout-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .payout-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .payout-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .payout-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .payout-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent-green);
+    }
+
+    .payout-details h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .payout-details p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .payout-amount {
+      text-align: right;
+    }
+    .payout-amount .amount {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+    .payout-amount .time {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 64px;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .pool-balance { font-size: 32px; }
+      .payout-item { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .payout-amount { text-align: left; }
+    }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo">
-      <img src="/logo.png" alt="Cryptoployed" class="logo-img">
-      CRYPTOPLOYED
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" fill="none"/><path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" fill="none"/></svg>
+      </div>
+      AIployer
     </a>
     <div class="nav-links">
-      <a href="/#protocol">protocol</a>
-      <a href="/tasks">tasks</a>
-      <a href="/payouts" class="active">payouts</a>
-      <a href="https://x.com/cryptoployed" target="_blank">𝕏</a>
+      <a href="/">Home</a>
+      <a href="/tasks">Tasks</a>
+      <a href="/payouts" class="active">Payouts</a>
     </div>
   </nav>
 
   <div class="container">
-    <div class="section-label">// TREASURY STATUS</div>
-    <h1>Payouts Ledger</h1>
-    <p class="subtitle">Every payment verified on-chain. Multi-currency. Transparent. Instant.</p>
-
-    <div class="treasury-grid">
-      <div class="treasury-card btc">
-        <div class="icon">₿</div>
-        <div class="balance">0.0842 BTC</div>
-        <div class="label">BITCOIN TREASURY</div>
-      </div>
-      <div class="treasury-card eth">
-        <div class="icon">Ξ</div>
-        <div class="balance">2.45 ETH</div>
-        <div class="label">ETHEREUM TREASURY</div>
-      </div>
-      <div class="treasury-card sol">
-        <div class="icon">◎</div>
-        <div class="balance">125.8 SOL</div>
-        <div class="label">SOLANA TREASURY</div>
-      </div>
-      <div class="treasury-card usdc">
-        <div class="icon">$</div>
-        <div class="balance">8,420 USDC</div>
-        <div class="label">USDC TREASURY</div>
-      </div>
+    <div class="page-header">
+      <h1>Payouts</h1>
+      <p>Pool balance and recent payout history</p>
     </div>
 
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-value green" id="totalPaidOut">$0</div>
-        <div class="stat-label">TOTAL PAID OUT (USD)</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="totalPayouts">0</div>
-        <div class="stat-label">TOTAL PAYOUTS</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="avgPayout">$0</div>
-        <div class="stat-label">AVG PAYOUT (USD)</div>
-      </div>
+    <div class="pool-card">
+      <div class="pool-label">Pool Balance</div>
+      <div class="pool-balance" id="poolBalance">Loading...</div>
+      <div class="pool-address" id="poolAddress"></div>
     </div>
 
-    <div class="live-indicator">
-      <div class="live-dot"></div>
-      LIVE FEED
-    </div>
-
-    <h2>Recent Payouts</h2>
-    <div class="payouts-list" id="payoutsList">
-      <div class="payout-row header">
-        <div>Time</div>
-        <div>Task</div>
-        <div style="text-align: center;">Crypto</div>
-        <div style="text-align: right;">Amount</div>
-        <div style="text-align: right;">Tx</div>
-      </div>
+    <div class="section-title">Recent Payouts</div>
+    <div class="payout-list" id="payoutList">
+      <div class="empty-state">Loading payout history...</div>
     </div>
   </div>
 
+  <footer>
+    © 2026 AIployer
+  </footer>
+
   <script>
-    const payouts = [
-      { time: '2 min ago', task: 'Create a product tutorial video', amount: 25, currency: 'SOL', cryptoAmount: '0.28', tx: '4xK9...mN2q' },
-      { time: '18 min ago', task: 'Design social media banners', amount: 15, currency: 'USDC', cryptoAmount: '15.00', tx: '2pQr...wX5v' },
-      { time: '45 min ago', task: 'Write a Twitter thread', amount: 8, currency: 'ETH', cryptoAmount: '0.003', tx: '8jKl...nO6p' },
-      { time: '1 hr ago', task: 'Create crypto memes (set of 5)', amount: 10, currency: 'BTC', cryptoAmount: '0.00015', tx: '1mNo...qR8s' },
-      { time: '2 hrs ago', task: 'Create ASCII art logo', amount: 6, currency: 'SOL', cryptoAmount: '0.067', tx: '6zAb...cD0e' },
-      { time: '3 hrs ago', task: 'Write a technical blog post', amount: 50, currency: 'ETH', cryptoAmount: '0.019', tx: '9lMn...oP2q' },
-      { time: '5 hrs ago', task: 'Translate docs to Spanish', amount: 20, currency: 'USDC', cryptoAmount: '20.00', tx: '3xYz...aB4c' },
-      { time: '6 hrs ago', task: 'Research competing platforms', amount: 18, currency: 'SOL', cryptoAmount: '0.20', tx: '7jKl...mN6o' },
-      { time: '8 hrs ago', task: 'Create a product tutorial video', amount: 25, currency: 'BTC', cryptoAmount: '0.00037', tx: '5vWx...yZ8a' },
-      { time: '12 hrs ago', task: 'Report and document a bug', amount: 15, currency: 'USDC', cryptoAmount: '15.00', tx: '2hIj...kL0m' },
+    // Sample recent payouts (in production, fetch from API)
+    const recentPayouts = [
+      { task: 'Create tutorial video', wallet: '7xK2...9mNp', amount: 0.25, time: '2 hours ago' },
+      { task: 'Design social banners', wallet: '3fGh...2kLm', amount: 0.15, time: '5 hours ago' },
+      { task: 'Write Twitter thread', wallet: '9pQr...5vWx', amount: 0.08, time: '8 hours ago' },
+      { task: 'Create meme set', wallet: '2aBc...7dEf', amount: 0.10, time: '12 hours ago' },
+      { task: 'Translate docs to Spanish', wallet: '8jKl...4mNo', amount: 0.20, time: '1 day ago' },
     ];
 
-    const totalPaid = payouts.reduce((sum, p) => sum + p.amount, 0);
-    const avgPayout = totalPaid / payouts.length;
+    async function loadPoolInfo() {
+      try {
+        const res = await fetch('/api/pool');
+        const data = await res.json();
+        document.getElementById('poolBalance').textContent = data.balance.toFixed(4) + ' SOL';
+        if (data.address && data.address !== 'Not configured') {
+          document.getElementById('poolAddress').innerHTML = `Pool: <a href="https://solscan.io/account/${data.address}" target="_blank">${data.address}</a>`;
+        } else {
+          document.getElementById('poolAddress').textContent = 'Pool wallet not configured';
+        }
+      } catch (e) {
+        document.getElementById('poolBalance').textContent = '—';
+      }
+    }
 
     function renderPayouts() {
-      const container = document.getElementById('payoutsList');
-      
-      const payoutRows = payouts.map(p => `
-        <div class="payout-row">
-          <div class="payout-time">${p.time}</div>
-          <div class="payout-task">${p.task}</div>
-          <div class="payout-currency"><span class="badge ${p.currency.toLowerCase()}">${p.currency}</span></div>
-          <div class="payout-amount">+$${p.amount}</div>
-          <div class="payout-tx"><a href="#" target="_blank">${p.tx}</a></div>
+      const list = document.getElementById('payoutList');
+      if (recentPayouts.length === 0) {
+        list.innerHTML = '<div class="empty-state">No payouts yet</div>';
+        return;
+      }
+      list.innerHTML = recentPayouts.map(p => `
+        <div class="payout-item">
+          <div class="payout-info">
+            <div class="payout-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M9 12l2 2 4-4"/>
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+            <div class="payout-details">
+              <h4>${p.task}</h4>
+              <p>${p.wallet}</p>
+            </div>
+          </div>
+          <div class="payout-amount">
+            <div class="amount">+${p.amount} SOL</div>
+            <div class="time">${p.time}</div>
+          </div>
         </div>
       `).join('');
-
-      container.innerHTML = `
-        <div class="payout-row header">
-          <div>Time</div>
-          <div>Task</div>
-          <div style="text-align: center;">Crypto</div>
-          <div style="text-align: right;">Amount</div>
-          <div style="text-align: right;">Tx</div>
-        </div>
-        ${payoutRows}
-      `;
-
-      animateValue('totalPaidOut', 0, totalPaid, 1500, '$');
-      animateValue('totalPayouts', 0, payouts.length, 1500, '');
-      animateValue('avgPayout', 0, avgPayout, 1500, '$');
     }
 
-    function animateValue(id, start, end, duration, prefix) {
-      const obj = document.getElementById(id);
-      const range = end - start;
-      const startTime = performance.now();
-      
-      function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const value = start + (range * progress);
-        obj.textContent = prefix + Math.floor(value);
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      
-      requestAnimationFrame(update);
-    }
-
-    setTimeout(renderPayouts, 500);
+    loadPoolInfo();
+    renderPayouts();
   </script>
 </body>
 </html>

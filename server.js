@@ -26,7 +26,7 @@ const connection = new Connection(
   'confirmed'
 );
 
-// Pool wallet (in production, load from secure env)
+// Pool wallet
 let poolKeypair = null;
 if (process.env.POOL_PRIVATE_KEY) {
   try {
@@ -34,118 +34,115 @@ if (process.env.POOL_PRIVATE_KEY) {
     const pk = process.env.POOL_PRIVATE_KEY.trim();
     
     if (pk.startsWith('[')) {
-      // JSON array format: [1,2,3,...]
       secretKey = new Uint8Array(JSON.parse(pk));
     } else if (pk.includes(',')) {
-      // Comma-separated format: 1,2,3,...
       secretKey = new Uint8Array(pk.split(',').map(n => parseInt(n.trim())));
     } else {
-      // Base58 format (from Phantom, etc.)
       secretKey = bs58.decode(pk);
     }
     
     poolKeypair = Keypair.fromSecretKey(secretKey);
-    console.log('🦀 Pool wallet loaded:', poolKeypair.publicKey.toBase58());
+    console.log('Pool wallet loaded:', poolKeypair.publicKey.toBase58());
   } catch (e) {
     console.log('Pool wallet not configured:', e.message);
   }
 }
 
-// Clawdployer Tasks
+// AIployer Tasks
 const jobs = [
   {
     id: 1,
-    title: "Create a Clawdbot tutorial video",
-    description: "Record a short video (2-5 min) showing how to set up and use Clawdbot. Cover installation, basic commands, and one cool feature. Post to YouTube/TikTok.",
+    title: "Create a crypto tutorial video",
+    description: "Record a short video (2-5 min) explaining a crypto concept like DeFi, NFTs, or staking. Post to YouTube, TikTok, or Twitter.",
     reward: 0.25,
     difficulty: "Medium",
     timeEstimate: "45 min",
-    verificationPrompt: "Does this show a video tutorial about Clawdbot? Look for: installation steps, command usage, demonstration of features. Should be 2-5 minutes and posted publicly."
+    verificationPrompt: "Does this show a video tutorial about crypto? Look for: educational content, clear explanation, 2-5 minutes length, posted publicly on a video platform."
   },
   {
     id: 2,
-    title: "Write a Clawdbot skill",
-    description: "Create a new skill for Clawdbot that adds useful functionality. Must include SKILL.md with proper documentation.",
+    title: "Write a smart contract",
+    description: "Write a simple Solana or EVM smart contract (escrow, token, or basic DeFi). Include deployment instructions.",
     reward: 0.50,
     difficulty: "Hard",
     timeEstimate: "2-4 hrs",
-    verificationPrompt: "Does this show a Clawdbot skill? Look for: SKILL.md file, proper folder structure, code files. Should include documentation and working code."
+    verificationPrompt: "Does this show a working smart contract? Look for: code files, proper structure, deployment instructions, functional contract logic."
   },
   {
     id: 3,
-    title: "Design Clawdployer banners",
-    description: "Create a set of 3 social media banners for Clawdployer (Twitter header, Discord banner, and a 1080x1080 square). Red/black theme with the 🦀 crab.",
+    title: "Design crypto project banners",
+    description: "Create a set of 3 social media banners for a crypto project (Twitter header 1500x500, Discord banner, and 1080x1080 square).",
     reward: 0.15,
     difficulty: "Easy",
     timeEstimate: "30 min",
-    verificationPrompt: "Does this show social media banners? Look for: red/black color scheme, crab emoji or crab imagery, multiple banner sizes, professional quality."
+    verificationPrompt: "Does this show social media banners? Look for: multiple banner sizes, professional design quality, crypto/web3 aesthetic."
   },
   {
     id: 4,
-    title: "Translate Clawdbot docs to Spanish",
-    description: "Translate the main README and getting-started guide to Spanish. Must be natural, not machine-translated.",
+    title: "Translate crypto docs to Spanish",
+    description: "Translate a README or documentation (500+ words) from English to Spanish. Must be natural, not machine-translated.",
     reward: 0.20,
     difficulty: "Medium",
     timeEstimate: "1 hr",
-    verificationPrompt: "Does this show Spanish translations of Clawdbot documentation? Look for: natural Spanish language, complete translation of key docs, proper formatting."
+    verificationPrompt: "Does this show Spanish translation of crypto documentation? Look for: natural Spanish language, complete translation, proper formatting."
   },
   {
     id: 5,
-    title: "Create Clawd memes (set of 5)",
-    description: "Make 5 high-quality memes about AI agents, Clawdbot, or the Clawd ecosystem. Must be funny, shareable, and use the 🦀 aesthetic.",
+    title: "Create crypto memes (set of 5)",
+    description: "Make 5 high-quality memes about crypto, DeFi, NFTs, or trading. Must be funny, shareable, and original.",
     reward: 0.10,
     difficulty: "Easy",
     timeEstimate: "20 min",
-    verificationPrompt: "Does this show memes related to Clawd/Clawdbot/AI agents? Look for: humor, shareability, crab theme or AI agent theme, at least 5 distinct memes."
+    verificationPrompt: "Does this show crypto-related memes? Look for: humor, shareability, crypto theme, at least 5 distinct memes, original content."
   },
   {
     id: 6,
-    title: "Build a Clawdbot Discord bot integration",
-    description: "Create a Discord bot that interfaces with Clawdbot via the gateway API. Should support basic commands like /ask and /status.",
+    title: "Build a Telegram price bot",
+    description: "Create a Telegram bot that fetches and displays crypto prices. Should support at least 5 tokens and have a /price command.",
     reward: 0.40,
     difficulty: "Hard",
     timeEstimate: "3-5 hrs",
-    verificationPrompt: "Does this show a Discord bot integration with Clawdbot? Look for: working bot code, Discord.js or similar, API integration, command handlers."
+    verificationPrompt: "Does this show a Telegram bot for crypto prices? Look for: working bot code, Telegram API integration, price fetching, command handlers."
   },
   {
     id: 7,
-    title: "Write a Twitter thread about AI agents",
-    description: "Write a 5-7 tweet thread explaining what AI agents are, why they matter, and how Clawdbot fits in. Post it live.",
+    title: "Write a Twitter thread about DeFi",
+    description: "Write a 5-7 tweet thread explaining a DeFi concept (yield farming, liquidity pools, etc.). Post it live on Twitter/X.",
     reward: 0.08,
     difficulty: "Easy",
     timeEstimate: "15 min",
-    verificationPrompt: "Does this show a Twitter thread about AI agents? Look for: 5-7 tweets, educational content about AI agents, mention of Clawdbot, posted publicly."
+    verificationPrompt: "Does this show a Twitter thread about DeFi? Look for: 5-7 tweets, educational content about DeFi, posted publicly."
   },
   {
     id: 8,
-    title: "Research competing AI agent platforms",
-    description: "Create a comparison doc analyzing 5 AI agent platforms (features, pricing, limitations). Include how Clawdbot compares.",
+    title: "Research DEX comparison",
+    description: "Create a comparison doc analyzing 5 DEXs (Uniswap, Jupiter, Raydium, etc.). Compare features, fees, chains, and volume.",
     reward: 0.18,
     difficulty: "Medium",
     timeEstimate: "1.5 hrs",
-    verificationPrompt: "Does this show a comparison of AI agent platforms? Look for: at least 5 platforms compared, features/pricing analysis, Clawdbot comparison, document format."
+    verificationPrompt: "Does this show a comparison of DEX platforms? Look for: at least 5 DEXs compared, features/fees analysis, structured document format."
   },
   {
     id: 9,
-    title: "Create an ASCII art crab logo",
-    description: "Design ASCII art crab (🦀) for terminal display. Should look good in monospace fonts and fit within 80 chars width.",
+    title: "Create ASCII art logo",
+    description: "Design ASCII art for a crypto project. Should look good in monospace fonts and fit within 80 chars width.",
     reward: 0.06,
     difficulty: "Easy",
     timeEstimate: "20 min",
-    verificationPrompt: "Does this show ASCII art of a crab? Look for: recognizable crab shape, fits in 80 character width, looks good in monospace, creative design."
+    verificationPrompt: "Does this show ASCII art? Look for: recognizable design, fits in 80 character width, looks good in monospace, creative/crypto themed."
   },
   {
     id: 10,
-    title: "Report and document a Clawdbot bug",
-    description: "Find a real bug in Clawdbot, document reproduction steps, and submit a proper GitHub issue. Must be a new, valid bug.",
+    title: "Find and report a bug",
+    description: "Find a real bug in an open-source crypto project, document reproduction steps, and submit a GitHub issue.",
     reward: 0.15,
     difficulty: "Medium",
     timeEstimate: "varies",
-    verificationPrompt: "Does this show a valid bug report? Look for: clear reproduction steps, actual bug (not feature request), GitHub issue link, detailed description."
+    verificationPrompt: "Does this show a valid bug report? Look for: clear reproduction steps, actual bug, GitHub issue link, detailed description."
   }
 ];
 
-// Serve pages
+// Routes
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.get('/tasks', (req, res) => res.sendFile(path.join(__dirname, 'public', 'tasks.html')));
 app.get('/payouts', (req, res) => res.sendFile(path.join(__dirname, 'public', 'payouts.html')));
@@ -177,17 +174,16 @@ app.post('/api/submit', upload.single('image'), async (req, res) => {
       return res.status(404).json({ error: 'Task not found' });
     }
 
-    console.log(`\n🦀 Submission for: "${job.title}"`);
-    console.log(`   Wallet: ${wallet}`);
-    console.log(`   Has image: ${!!imageFile}`);
-    console.log(`   Notes: ${proofText || 'none'}`);
+    console.log(`\nSubmission for: "${job.title}"`);
+    console.log(`  Wallet: ${wallet}`);
+    console.log(`  Has image: ${!!imageFile}`);
+    console.log(`  Notes: ${proofText || 'none'}`);
 
-    // Verify with AI if configured
     let approved = false;
     let reason = '';
 
     if (openai && imageFile) {
-      console.log('🤖 AI verification in progress...');
+      console.log('AI verification in progress...');
       
       const base64Image = imageFile.buffer.toString('base64');
       const mimeType = imageFile.mimetype;
@@ -197,7 +193,7 @@ app.post('/api/submit', upload.single('image'), async (req, res) => {
         messages: [
           {
             role: 'system',
-            content: `You are a task verification AI for Clawdployer, a platform where humans complete tasks for the Clawd ecosystem. 
+            content: `You are a task verification AI for AIployer, a platform where people complete crypto-related tasks for payment.
             
 Analyze submissions fairly but thoroughly. Approve good-faith efforts that meet the core requirements. Reject low-effort or off-topic submissions.
 
@@ -233,19 +229,17 @@ Does this submission complete the task?`
       approved = result.approved;
       reason = result.reason;
       
-      console.log(`   Verdict: ${approved ? '✅ APPROVED' : '❌ REJECTED'}`);
-      console.log(`   Reason: ${reason}`);
+      console.log(`  Verdict: ${approved ? 'APPROVED' : 'REJECTED'}`);
+      console.log(`  Reason: ${reason}`);
     } else {
-      // Demo mode
       approved = true;
       reason = 'Auto-approved (demo mode - AI verification not configured)';
     }
 
-    // Process payment if approved
     let txSignature = null;
     if (approved && poolKeypair) {
       try {
-        console.log(`💸 Sending ${job.reward} SOL to ${wallet}...`);
+        console.log(`Sending ${job.reward} SOL to ${wallet}...`);
         
         const toPublicKey = new PublicKey(wallet);
         const lamports = Math.floor(job.reward * LAMPORTS_PER_SOL);
@@ -261,9 +255,9 @@ Does this submission complete the task?`
         txSignature = await connection.sendTransaction(transaction, [poolKeypair]);
         await connection.confirmTransaction(txSignature);
         
-        console.log(`   ✅ Payment sent! Tx: ${txSignature}`);
+        console.log(`  Payment sent! Tx: ${txSignature}`);
       } catch (payErr) {
-        console.error('   ❌ Payment failed:', payErr.message);
+        console.error('  Payment failed:', payErr.message);
       }
     }
 
@@ -303,9 +297,9 @@ app.get('/api/pool', async (req, res) => {
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
-  console.log(`\n🦀 Clawdployer running at http://localhost:${PORT}`);
-  console.log(`   Tasks: ${jobs.length} deployed`);
-  if (!openai) console.log('⚠️  OpenAI not configured - running in demo mode');
-  if (!poolKeypair) console.log('⚠️  Pool wallet not configured - payments disabled');
+  console.log(`\nAIployer running at http://localhost:${PORT}`);
+  console.log(`Tasks: ${jobs.length} available`);
+  if (!openai) console.log('OpenAI not configured - running in demo mode');
+  if (!poolKeypair) console.log('Pool wallet not configured - payments disabled');
   console.log('');
 });

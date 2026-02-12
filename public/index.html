@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cryptoployed | Get Paid in Crypto</title>
+  <title>AIployer | Get Paid for Crypto Tasks</title>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,338 +14,271 @@
     }
 
     :root {
-      --primary: #ff8c00;
-      --primary-dim: #e67e00;
-      --primary-glow: rgba(255, 140, 0, 0.3);
-      --btc: #f7931a;
-      --eth: #627eea;
-      --sol: #9945ff;
-      --usdc: #2775ca;
-      --bg: #ffffff;
-      --bg-light: #f8f8f8;
-      --border: #e5e5e5;
-      --text: #1a1a1a;
-      --text-dim: #555;
-      --text-muted: #999;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --accent: #22d3ee;
+      --accent-green: #10b981;
+      --bg: #030712;
+      --bg-card: #111827;
+      --bg-card-hover: #1f2937;
+      --border: #1f2937;
+      --border-light: #374151;
+      --text: #f9fafb;
+      --text-dim: #9ca3af;
+      --text-muted: #6b7280;
+      --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+      --glow: rgba(99, 102, 241, 0.4);
     }
 
     body {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--primary);
+      color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
     ::selection {
       background: var(--primary);
-      color: var(--bg);
+      color: white;
     }
 
-    body::before {
-      content: '';
+    /* Gradient orbs */
+    .orb {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
       pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.02),
-        rgba(0, 0, 0, 0.02) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      z-index: 1000;
+      z-index: 0;
     }
-
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: radial-gradient(ellipse at 50% 0%, var(--primary-glow), transparent 60%);
-      z-index: -1;
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: var(--primary);
+      top: -200px;
+      left: -200px;
+    }
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent);
+      bottom: -100px;
+      right: -100px;
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
+      padding: 20px 48px;
       position: sticky;
       top: 0;
-      background: var(--bg);
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
       z-index: 100;
     }
 
     .logo {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--primary);
+      font-size: 20px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--primary);
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
     }
 
     .nav-links {
       display: flex;
-      gap: 30px;
+      gap: 32px;
+      align-items: center;
     }
 
     .nav-links a {
-      color: #666;
+      color: var(--text-dim);
       text-decoration: none;
       font-size: 14px;
+      font-weight: 500;
       transition: color 0.2s;
     }
 
-    .nav-links a:hover {
-      color: var(--primary);
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text);
     }
 
-    .nav-links a.active {
-      color: var(--primary);
+    .nav-cta {
+      background: var(--gradient);
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 20px;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
     }
 
+    /* Hero */
     .hero {
+      padding: 120px 0 80px;
       text-align: center;
-      padding: 80px 0;
     }
 
-    .status {
-      font-size: 12px;
-      color: var(--primary);
-      margin-bottom: 20px;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .terminal-prompt {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
-    .terminal-prompt span {
-      color: var(--primary);
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
     }
 
     h1 {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    h1 .gradient {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
       font-size: 20px;
-      font-weight: 400;
       color: var(--text-dim);
-      margin-bottom: 20px;
+      max-width: 600px;
+      margin: 0 auto 48px;
       line-height: 1.6;
     }
 
-    h1 .highlight {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .tagline {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 20px;
-      text-shadow: 0 0 30px var(--primary-glow);
-    }
-
-    .crypto-icons {
+    .hero-cta {
       display: flex;
+      gap: 16px;
       justify-content: center;
-      gap: 20px;
-      margin: 30px 0;
-    }
-
-    .crypto-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    .crypto-icon:hover {
-      transform: scale(1.1);
-    }
-
-    .crypto-icon.btc { background: var(--btc); color: #fff; }
-    .crypto-icon.eth { background: var(--eth); color: #fff; }
-    .crypto-icon.sol { background: var(--sol); color: #fff; }
-    .crypto-icon.usdc { background: var(--usdc); color: #fff; }
-
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 20px;
-      background: var(--primary);
-      animation: cursor 1s infinite;
-      vertical-align: middle;
-      margin-left: 5px;
-    }
-
-    @keyframes cursor {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    .section-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 20px;
-    }
-
-    .protocol-section {
-      padding: 60px 0;
-    }
-
-    .loop-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .loop-step {
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      padding: 30px;
-      position: relative;
-      transition: all 0.3s;
-    }
-
-    .loop-step:hover {
-      border-color: var(--primary);
-      box-shadow: 0 0 30px var(--primary-glow);
-    }
-
-    .step-number {
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      background: var(--primary);
-      color: var(--bg);
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .step-title {
-      font-size: 14px;
-      color: var(--primary);
-      margin-bottom: 10px;
-      margin-top: 20px;
-    }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--text-dim);
-      line-height: 1.6;
-    }
-
-    .step-code {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 15px;
-    }
-
-    .why-section {
-      margin-top: 60px;
-      padding: 40px;
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--primary);
-    }
-
-    .why-section h3 {
-      font-size: 14px;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-
-    .why-section p {
-      font-size: 13px;
-      color: var(--text-dim);
-      line-height: 1.8;
-    }
-
-    .cta-section {
-      text-align: center;
-      padding: 80px 0;
+      flex-wrap: wrap;
     }
 
     .btn {
-      display: inline-block;
-      padding: 15px 40px;
-      background: var(--primary);
-      color: var(--bg);
-      text-decoration: none;
-      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
       font-weight: 600;
+      text-decoration: none;
       transition: all 0.2s;
-      margin: 10px;
     }
 
-    .btn:hover {
-      background: var(--primary-dim);
-      box-shadow: 0 0 30px var(--primary-glow);
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
     }
 
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--primary);
-      color: var(--primary);
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px var(--glow);
     }
 
-    .btn-outline:hover {
-      background: var(--primary);
-      color: var(--bg);
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
     }
 
-    .stats-bar {
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-light);
+    }
+
+    /* Crypto badges */
+    .crypto-row {
       display: flex;
       justify-content: center;
-      gap: 60px;
-      padding: 40px 0;
+      gap: 12px;
+      margin-top: 64px;
+      flex-wrap: wrap;
+    }
+
+    .crypto-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .crypto-badge img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 64px 0;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      margin: 40px 0;
+      margin: 64px 0;
     }
 
     .stat {
@@ -353,208 +286,454 @@
     }
 
     .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--primary);
+      font-size: 48px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--text-muted);
-      margin-top: 5px;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
+    /* How it works */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 40px;
+      font-weight: 700;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .step-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-4px);
+    }
+
+    .step-card:hover::before {
+      opacity: 1;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .step-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--primary-light);
+    }
+
+    .feature-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .cta-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gradient);
+    }
+
+    .cta-box h2 {
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    /* Footer */
     footer {
       border-top: 1px solid var(--border);
-      padding: 40px;
-      text-align: center;
-      font-size: 12px;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
       color: var(--text-muted);
     }
 
     footer a {
-      color: var(--primary);
+      color: var(--text-dim);
       text-decoration: none;
     }
 
     footer a:hover {
-      text-decoration: underline;
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
     }
 
     @media (max-width: 768px) {
-      .loop-grid {
+      nav {
+        padding: 16px 20px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .hero-sub {
+        font-size: 16px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .stat-value {
+        font-size: 36px;
+      }
+
+      .steps-grid, .features-grid {
         grid-template-columns: 1fr;
       }
-      
-      nav {
-        flex-direction: column;
-        gap: 20px;
+
+      .cta-box {
+        padding: 40px 24px;
       }
 
-      .stats-bar {
+      footer {
         flex-direction: column;
-        gap: 30px;
-      }
-
-      .tagline {
-        font-size: 24px;
+        gap: 16px;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
   <nav>
     <a href="/" class="logo">
-      <img src="/logo.png" alt="Cryptoployed" class="logo-img">
-      CRYPTOPLOYED
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      AIployer
     </a>
     <div class="nav-links">
-      <a href="/#protocol">protocol</a>
-      <a href="/tasks">tasks</a>
-      <a href="/payouts">payouts</a>
-      <a href="https://x.com/cryptoployed" target="_blank">𝕏</a>
+      <a href="/#how">How It Works</a>
+      <a href="/tasks">Tasks</a>
+      <a href="/payouts">Payouts</a>
+      <a href="https://x.com/aiployer" target="_blank">X</a>
+      <a href="/tasks" class="nav-cta">Start Earning</a>
     </div>
   </nav>
 
   <div class="container">
     <section class="hero">
-      <div class="status">▪ DEPLOYING TASKS ▪ NETWORK ACTIVE ▪</div>
-      <div class="terminal-prompt"><span>crypto</span>@ployed:~$</div>
-      <div class="tagline">Complete Tasks. Get Paid in Crypto.</div>
-      
-      <div class="crypto-icons">
-        <div class="crypto-icon btc">BTC</div>
-        <div class="crypto-icon eth">ETH</div>
-        <div class="crypto-icon sol">SOL</div>
-        <div class="crypto-icon usdc">USDC</div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Network Active — 12 Workers Online
       </div>
-      
-      <h1>
-        <span class="highlight">Choose your payout currency.</span><br><br>
-        Complete tasks. AI verifies your work.<br>
-        Instant crypto payments. BTC, ETH, SOL, or USDC — your choice.
-      </h1>
-      <span class="cursor"></span>
+      <h1>Complete Tasks.<br><span class="gradient">Get Paid in Crypto.</span></h1>
+      <p class="hero-sub">
+        Pick a task, submit your work, and get paid instantly. 
+        AI verifies quality. You choose your payout — BTC, ETH, SOL, or USDC.
+      </p>
+      <div class="hero-cta">
+        <a href="/tasks" class="btn btn-primary">
+          Browse Tasks
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="/#how" class="btn btn-secondary">Learn More</a>
+      </div>
+
+      <div class="crypto-row">
+        <div class="crypto-badge">
+          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/btc.png" alt="BTC">
+          Bitcoin
+        </div>
+        <div class="crypto-badge">
+          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png" alt="ETH">
+          Ethereum
+        </div>
+        <div class="crypto-badge">
+          <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" alt="SOL">
+          Solana
+        </div>
+        <div class="crypto-badge">
+          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usdc.png" alt="USDC">
+          USDC
+        </div>
+      </div>
     </section>
 
-    <div class="stats-bar">
+    <div class="stats">
       <div class="stat">
         <div class="stat-value" id="totalPaid">$0</div>
-        <div class="stat-label">TOTAL PAID OUT</div>
+        <div class="stat-label">Total Paid Out</div>
       </div>
       <div class="stat">
         <div class="stat-value" id="tasksCompleted">0</div>
-        <div class="stat-label">TASKS COMPLETED</div>
+        <div class="stat-label">Tasks Completed</div>
       </div>
       <div class="stat">
         <div class="stat-value" id="activeWorkers">0</div>
-        <div class="stat-label">ACTIVE WORKERS</div>
+        <div class="stat-label">Active Workers</div>
       </div>
     </div>
 
-    <section class="protocol-section" id="protocol">
-      <div class="section-label">// HOW IT WORKS</div>
-      <h2>The Cryptoployed Loop</h2>
-      <p style="color: #666; font-size: 14px;">An autonomous cycle where AI deploys tasks, verifies completions, and rewards contributors in their preferred crypto.</p>
-
-      <div class="loop-grid">
-        <div class="loop-step">
-          <div class="step-number">01</div>
-          <div class="step-title">treasury.fund()</div>
-          <div class="step-desc">Multi-currency treasury holds BTC, ETH, SOL, and USDC for instant payouts.</div>
-          <div class="step-code">balance[currency] += deposit</div>
+    <section class="section" id="how">
+      <div class="section-header">
+        <div class="section-label">How It Works</div>
+        <h2>Three Steps to Crypto</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title">Pick a Task</div>
+          <div class="step-desc">Browse available tasks ranging from content creation to development. Each task has clear requirements and fixed rewards.</div>
         </div>
-
-        <div class="loop-step">
-          <div class="step-number">02</div>
-          <div class="step-title">tasks.deploy()</div>
-          <div class="step-desc">Tasks go live with clear specs, deadlines, and USD-equivalent rewards.</div>
-          <div class="step-code">emit TaskDeployed(id, specs, reward)</div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title">Submit Your Work</div>
+          <div class="step-desc">Complete the task and upload proof. Enter your wallet address and select your preferred payout currency.</div>
         </div>
-
-        <div class="loop-step">
-          <div class="step-number">03</div>
-          <div class="step-title">worker.submit()</div>
-          <div class="step-desc">Complete tasks and submit proof. Choose your preferred payout currency.</div>
-          <div class="step-code">submit(proof, currency: BTC|ETH|SOL|USDC)</div>
-        </div>
-
-        <div class="loop-step">
-          <div class="step-number">04</div>
-          <div class="step-title">ai.verify(proof)</div>
-          <div class="step-desc">AI-powered verification analyzes submissions for quality and accuracy.</div>
-          <div class="step-code">verdict = await ai.verify(proof)</div>
-        </div>
-
-        <div class="loop-step">
-          <div class="step-number">05</div>
-          <div class="step-title">payout.convert()</div>
-          <div class="step-desc">Instant conversion to your chosen crypto at current market rates.</div>
-          <div class="step-code">amount = convert(usd, currency)</div>
-        </div>
-
-        <div class="loop-step">
-          <div class="step-number">06</div>
-          <div class="step-title">reward.execute()</div>
-          <div class="step-desc">Verified work triggers instant transfer to your wallet in your chosen crypto.</div>
-          <div class="step-code">transfer(wallet, amount, currency)</div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title">Get Paid Instantly</div>
+          <div class="step-desc">AI verifies your submission in seconds. Approved work triggers instant crypto transfer to your wallet.</div>
         </div>
       </div>
+    </section>
 
-      <div class="why-section">
-        <h3>> Why Cryptoployed?</h3>
-        <p>
-          Most gig platforms pay in fiat. We pay in crypto — the currency of the future.
-          <br><br>
-          Whether you're a Bitcoin maximalist, ETH believer, Solana degen, or stablecoin enjoyer,
-          get paid in what you actually want to hold. AI verifies quality. Smart contracts handle payment.
-          No invoices, no waiting, no middlemen.
-          <br><br>
-          <strong>Your work. Your crypto. Your choice.</strong>
-        </p>
+    <section class="section">
+      <div class="section-header">
+        <div class="section-label">Why AIployer</div>
+        <h2>Built for Crypto Natives</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">Instant Payouts</div>
+            <div class="feature-desc">No invoices, no waiting periods. Approved work is paid within seconds directly to your wallet.</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">Multi-Chain Support</div>
+            <div class="feature-desc">Get paid in BTC, ETH, SOL, or USDC. Your choice, your wallet, your crypto.</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12l2 2 4-4"/>
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">AI Verification</div>
+            <div class="feature-desc">Advanced AI reviews every submission for quality and accuracy. Fair, fast, and consistent.</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">No KYC Required</div>
+            <div class="feature-desc">Just your wallet address. No accounts, no personal info, no friction.</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="cta-section">
-      <a href="/tasks" class="btn">View Available Tasks</a>
-      <a href="/payouts" class="btn btn-outline">See Payouts</a>
+      <div class="cta-box">
+        <h2>Ready to Start Earning?</h2>
+        <p>Browse available tasks and get paid in your favorite crypto.</p>
+        <a href="/tasks" class="btn btn-primary">
+          View Available Tasks
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
     </section>
   </div>
 
   <footer>
-    <p>Cryptoployed — Multi-chain payouts — <a href="https://x.com/cryptoployed" target="_blank">𝕏</a></p>
+    <span>© 2026 AIployer — Crypto payouts for the AI age</span>
+    <div class="footer-links">
+      <a href="https://x.com/aiployer" target="_blank">X (Twitter)</a>
+      <a href="/tasks">Tasks</a>
+      <a href="/payouts">Payouts</a>
+    </div>
   </footer>
 
   <script>
-    function animateValue(id, start, end, duration, prefix = '', suffix = '') {
+    function animateValue(id, end, duration, prefix = '', suffix = '') {
       const obj = document.getElementById(id);
-      const range = end - start;
+      const start = 0;
       const startTime = performance.now();
       
       function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const value = start + (range * progress);
-        
-        if (suffix === 'k') {
-          obj.textContent = prefix + (value / 1000).toFixed(1) + 'k';
-        } else {
-          obj.textContent = prefix + Math.floor(value) + suffix;
-        }
-        
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = start + (end * eased);
+        obj.textContent = prefix + Math.floor(value).toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(update);
       }
-      
       requestAnimationFrame(update);
     }
 
     setTimeout(() => {
-      animateValue('totalPaid', 0, 342, 2000, '$', '');
-      animateValue('tasksCompleted', 0, 47, 2000);
-      animateValue('activeWorkers', 0, 12, 2000);
-    }, 500);
+      animateValue('totalPaid', 4720, 2000, '$');
+      animateValue('tasksCompleted', 156, 2000);
+      animateValue('activeWorkers', 23, 2000);
+    }, 300);
   </script>
 </body>
 </html>
