@@ -49,8 +49,11 @@
       font-weight: 700;
       color: var(--text);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .logo-bracket { color: var(--text-muted); }
+    .logo-img { width: 28px; height: 28px; }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
       color: var(--text-dim);
@@ -210,7 +213,7 @@
 </head>
 <body>
   <nav>
-    <a href="/" class="logo"><span class="logo-bracket">[</span>AIployer<span class="logo-bracket">]</span></a>
+    <a href="/" class="logo"><img src="/logo.png" alt="AIployer" class="logo-img">AIployer</a>
     <div class="nav-links">
       <a href="/">home</a>
       <a href="/tasks">tasks</a>

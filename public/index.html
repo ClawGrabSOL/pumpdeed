@@ -75,11 +75,12 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .logo-bracket {
-      color: var(--text-muted);
+    .logo-img {
+      width: 28px;
+      height: 28px;
     }
 
     .nav-links {
@@ -608,7 +609,8 @@
 <body>
   <nav>
     <a href="/" class="logo">
-      <span class="logo-bracket">[</span>AIployer<span class="logo-bracket">]</span>
+      <img src="/logo.png" alt="AIployer" class="logo-img">
+      <span>AIployer</span>
     </a>
     <div class="nav-links">
       <a href="/#protocol">protocol</a>
@@ -623,7 +625,7 @@
     <section class="hero">
       <div class="terminal-header">
         <div class="terminal-dot"></div>
-        <span>system active // 23 workers online</span>
+        <span>system active // 7 workers online</span>
       </div>
       
       <div class="hero-title"><span>$</span> ./aiployer --init</div>
@@ -835,10 +837,10 @@
     }
 
     setTimeout(() => {
-      animateValue('totalPaid', 12847, 2000);
-      animateValue('tasksCompleted', 342, 2000);
-      animateValue('activeWorkers', 23, 1500);
-      animateValue('avgPayout', 12, 1500);
+      animateValue('totalPaid', 247, 2000);
+      animateValue('tasksCompleted', 18, 2000);
+      animateValue('activeWorkers', 7, 1500);
+      animateValue('avgPayout', 14, 1500);
     }, 500);
 
     // Live activity feed
