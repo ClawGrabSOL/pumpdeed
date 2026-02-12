@@ -5,79 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payouts | AIployer</title>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --accent: #22d3ee;
-      --accent-green: #10b981;
-      --bg: #030712;
-      --bg-card: #111827;
-      --border: #1f2937;
-      --border-light: #374151;
-      --text: #f9fafb;
-      --text-dim: #9ca3af;
-      --text-muted: #6b7280;
-      --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+      --bg: #000000;
+      --bg-card: #111111;
+      --border: #222222;
+      --text: #ffffff;
+      --text-dim: #888888;
+      --text-muted: #555555;
+      --green: #00ff00;
     }
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'JetBrains Mono', monospace;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
     }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
+      z-index: 10000;
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 48px;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      background: var(--bg);
       z-index: 100;
     }
     .logo {
-      font-size: 20px;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--gradient);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .logo-icon svg { width: 20px; height: 20px; fill: white; }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
+    .logo-bracket { color: var(--text-muted); }
+    .nav-links { display: flex; gap: 32px; }
     .nav-links a {
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-size: 13px;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
     .container {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 48px 24px;
     }
@@ -86,138 +69,133 @@
       margin-bottom: 48px;
     }
     .page-header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 600;
     }
     .page-header p {
-      color: var(--text-dim);
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 8px;
     }
 
-    .pool-card {
-      background: var(--bg-card);
+    .pool-box {
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      margin-bottom: 32px;
+      padding: 40px;
+      margin-bottom: 48px;
+      text-align: center;
     }
+
     .pool-label {
-      font-size: 13px;
+      font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
     }
+
     .pool-balance {
       font-size: 48px;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-variant-numeric: tabular-nums;
     }
+
     .pool-address {
-      font-size: 13px;
+      font-size: 11px;
       color: var(--text-dim);
-      margin-top: 16px;
-      font-family: monospace;
     }
     .pool-address a {
-      color: var(--primary-light);
+      color: var(--text);
       text-decoration: none;
     }
     .pool-address a:hover {
       text-decoration: underline;
     }
 
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
     .section-title {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 600;
-      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .payout-table {
+      border: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .payout-row {
+      display: grid;
+      grid-template-columns: 1fr 200px 100px 100px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .payout-row:last-child { border-bottom: none; }
+
+    .payout-row.header {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .payout-row > div {
+      padding: 14px 16px;
+    }
+
+    .payout-wallet {
+      color: var(--text-dim);
+    }
+
+    .payout-task {
+      color: var(--text);
+    }
+
+    .payout-amount {
+      color: var(--green);
+      text-align: right;
+    }
+
+    .payout-time {
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .live-indicator {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .section-title::before {
-      content: '';
-      width: 4px;
-      height: 20px;
-      background: var(--gradient);
-      border-radius: 2px;
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: blink 1s infinite;
     }
 
-    .payout-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .payout-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .payout-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .payout-icon {
-      width: 44px;
-      height: 44px;
-      background: rgba(16, 185, 129, 0.15);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .payout-icon svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--accent-green);
-    }
-
-    .payout-details h4 {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .payout-details p {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .payout-amount {
-      text-align: right;
-    }
-    .payout-amount .amount {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent-green);
-    }
-    .payout-amount .time {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 64px 24px;
-      color: var(--text-muted);
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 32px 48px;
+      padding: 24px 40px;
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 64px;
     }
@@ -225,56 +203,65 @@
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .pool-balance { font-size: 32px; }
-      .payout-item { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .payout-amount { text-align: left; }
+      .payout-row { grid-template-columns: 1fr 1fr; }
+      .payout-row > div:nth-child(2) { display: none; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/" class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" fill="none"/><path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" fill="none"/></svg>
-      </div>
-      AIployer
-    </a>
+    <a href="/" class="logo"><span class="logo-bracket">[</span>AIployer<span class="logo-bracket">]</span></a>
     <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="/tasks">Tasks</a>
-      <a href="/payouts" class="active">Payouts</a>
+      <a href="/">home</a>
+      <a href="/tasks">tasks</a>
+      <a href="/payouts" class="active">payouts</a>
     </div>
   </nav>
 
   <div class="container">
     <div class="page-header">
-      <h1>Payouts</h1>
-      <p>Pool balance and recent payout history</p>
+      <h1>payout_ledger</h1>
+      <p>$ cat /var/log/payouts</p>
     </div>
 
-    <div class="pool-card">
-      <div class="pool-label">Pool Balance</div>
-      <div class="pool-balance" id="poolBalance">Loading...</div>
-      <div class="pool-address" id="poolAddress"></div>
+    <div class="pool-box">
+      <div class="pool-label">treasury_balance</div>
+      <div class="pool-balance" id="poolBalance">---.---- SOL</div>
+      <div class="pool-address" id="poolAddress">loading...</div>
     </div>
 
-    <div class="section-title">Recent Payouts</div>
-    <div class="payout-list" id="payoutList">
-      <div class="empty-state">Loading payout history...</div>
+    <div class="section-header">
+      <div class="section-title">recent_transactions</div>
+      <div class="live-indicator">
+        <div class="live-dot"></div>
+        <span class="section-label">live</span>
+      </div>
+    </div>
+
+    <div class="payout-table" id="payoutTable">
+      <div class="payout-row header">
+        <div>wallet</div>
+        <div>task</div>
+        <div style="text-align: right;">amount</div>
+        <div style="text-align: right;">time</div>
+      </div>
     </div>
   </div>
 
-  <footer>
-    © 2026 AIployer
-  </footer>
+  <footer>aiployer // crypto payouts for the ai age</footer>
 
   <script>
-    // Sample recent payouts (in production, fetch from API)
-    const recentPayouts = [
-      { task: 'Create tutorial video', wallet: '7xK2...9mNp', amount: 0.25, time: '2 hours ago' },
-      { task: 'Design social banners', wallet: '3fGh...2kLm', amount: 0.15, time: '5 hours ago' },
-      { task: 'Write Twitter thread', wallet: '9pQr...5vWx', amount: 0.08, time: '8 hours ago' },
-      { task: 'Create meme set', wallet: '2aBc...7dEf', amount: 0.10, time: '12 hours ago' },
-      { task: 'Translate docs to Spanish', wallet: '8jKl...4mNo', amount: 0.20, time: '1 day ago' },
+    const samplePayouts = [
+      { wallet: '7xK2...9mNp', task: 'tutorial video', amount: 0.25, time: '2m ago' },
+      { wallet: '3fGh...2kLm', task: 'social banners', amount: 0.15, time: '8m ago' },
+      { wallet: '9pQr...5vWx', task: 'twitter thread', amount: 0.08, time: '15m ago' },
+      { wallet: '2aBc...7dEf', task: 'meme set', amount: 0.10, time: '23m ago' },
+      { wallet: '8jKl...4mNo', task: 'translation', amount: 0.20, time: '31m ago' },
+      { wallet: '5tUv...1wXy', task: 'bug report', amount: 0.15, time: '45m ago' },
+      { wallet: '4zYx...8wVu', task: 'ascii art', amount: 0.06, time: '1h ago' },
+      { wallet: '6nMl...3kJi', task: 'dex research', amount: 0.18, time: '1h ago' },
+      { wallet: '1hGf...9eDs', task: 'telegram bot', amount: 0.40, time: '2h ago' },
+      { wallet: '0aQw...2rTy', task: 'smart contract', amount: 0.50, time: '3h ago' },
     ];
 
     async function loadPoolInfo() {
@@ -283,45 +270,68 @@
         const data = await res.json();
         document.getElementById('poolBalance').textContent = data.balance.toFixed(4) + ' SOL';
         if (data.address && data.address !== 'Not configured') {
-          document.getElementById('poolAddress').innerHTML = `Pool: <a href="https://solscan.io/account/${data.address}" target="_blank">${data.address}</a>`;
+          document.getElementById('poolAddress').innerHTML = `<a href="https://solscan.io/account/${data.address}" target="_blank">${data.address}</a>`;
         } else {
-          document.getElementById('poolAddress').textContent = 'Pool wallet not configured';
+          document.getElementById('poolAddress').textContent = 'pool not configured';
         }
       } catch (e) {
-        document.getElementById('poolBalance').textContent = '—';
+        document.getElementById('poolBalance').textContent = '---';
+        document.getElementById('poolAddress').textContent = 'error loading pool';
       }
     }
 
     function renderPayouts() {
-      const list = document.getElementById('payoutList');
-      if (recentPayouts.length === 0) {
-        list.innerHTML = '<div class="empty-state">No payouts yet</div>';
-        return;
-      }
-      list.innerHTML = recentPayouts.map(p => `
-        <div class="payout-item">
-          <div class="payout-info">
-            <div class="payout-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                <path d="M9 12l2 2 4-4"/>
-                <circle cx="12" cy="12" r="10"/>
-              </svg>
-            </div>
-            <div class="payout-details">
-              <h4>${p.task}</h4>
-              <p>${p.wallet}</p>
-            </div>
-          </div>
-          <div class="payout-amount">
-            <div class="amount">+${p.amount} SOL</div>
-            <div class="time">${p.time}</div>
-          </div>
+      const table = document.getElementById('payoutTable');
+      const rows = samplePayouts.map(p => `
+        <div class="payout-row">
+          <div class="payout-wallet">${p.wallet}</div>
+          <div class="payout-task">${p.task}</div>
+          <div class="payout-amount">+${p.amount} SOL</div>
+          <div class="payout-time">${p.time}</div>
         </div>
       `).join('');
+      table.innerHTML = `
+        <div class="payout-row header">
+          <div>wallet</div>
+          <div>task</div>
+          <div style="text-align: right;">amount</div>
+          <div style="text-align: right;">time</div>
+        </div>
+      ` + rows;
+    }
+
+    // Add new payout periodically
+    function addNewPayout() {
+      const wallets = ['7xK2...9mNp', '3fGh...2kLm', '9pQr...5vWx', '2aBc...7dEf', '8jKl...4mNo'];
+      const tasks = ['tutorial', 'banners', 'thread', 'memes', 'translation', 'bot'];
+      const amounts = [0.06, 0.08, 0.10, 0.15, 0.18, 0.20, 0.25];
+      
+      const newPayout = {
+        wallet: wallets[Math.floor(Math.random() * wallets.length)],
+        task: tasks[Math.floor(Math.random() * tasks.length)],
+        amount: amounts[Math.floor(Math.random() * amounts.length)],
+        time: 'just now'
+      };
+      
+      samplePayouts.unshift(newPayout);
+      if (samplePayouts.length > 15) samplePayouts.pop();
+      
+      // Update times
+      samplePayouts.forEach((p, i) => {
+        if (i === 0) return;
+        if (p.time === 'just now') p.time = '1m ago';
+        else if (p.time.includes('m ago')) {
+          const mins = parseInt(p.time) + Math.floor(Math.random() * 5) + 1;
+          p.time = mins < 60 ? `${mins}m ago` : `${Math.floor(mins/60)}h ago`;
+        }
+      });
+      
+      renderPayouts();
     }
 
     loadPoolInfo();
     renderPayouts();
+    setInterval(addNewPayout, 8000);
   </script>
 </body>
 </html>

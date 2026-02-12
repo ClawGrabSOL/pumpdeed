@@ -5,109 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIployer | Get Paid for Crypto Tasks</title>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     :root {
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --primary-dark: #4f46e5;
-      --accent: #22d3ee;
-      --accent-green: #10b981;
-      --bg: #030712;
-      --bg-card: #111827;
-      --bg-card-hover: #1f2937;
-      --border: #1f2937;
-      --border-light: #374151;
-      --text: #f9fafb;
-      --text-dim: #9ca3af;
-      --text-muted: #6b7280;
-      --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
-      --glow: rgba(99, 102, 241, 0.4);
+      --bg: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #111111;
+      --border: #222222;
+      --border-hover: #333333;
+      --text: #ffffff;
+      --text-dim: #888888;
+      --text-muted: #555555;
+      --accent: #ffffff;
+      --green: #00ff00;
+      --green-dim: #00aa00;
     }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'JetBrains Mono', monospace;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
+      cursor: default;
     }
 
     ::selection {
-      background: var(--primary);
-      color: white;
+      background: var(--text);
+      color: var(--bg);
     }
 
-    /* Gradient orbs */
-    .orb {
+    /* Scanlines */
+    body::before {
+      content: '';
       position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.3;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 {
-      width: 600px;
-      height: 600px;
-      background: var(--primary);
-      top: -200px;
-      left: -200px;
-    }
-    .orb-2 {
-      width: 400px;
-      height: 400px;
-      background: var(--accent);
-      bottom: -100px;
-      right: -100px;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.02) 0px,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      z-index: 10000;
     }
 
+    /* Nav */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 48px;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      background: var(--bg);
       z-index: 100;
     }
 
     .logo {
-      font-size: 20px;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--gradient);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: white;
+    .logo-bracket {
+      color: var(--text-muted);
     }
 
     .nav-links {
@@ -119,342 +91,388 @@
     .nav-links a {
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-size: 13px;
+      transition: all 0.1s;
+      position: relative;
     }
 
-    .nav-links a:hover, .nav-links a.active {
+    .nav-links a:hover {
       color: var(--text);
     }
 
+    .nav-links a::before {
+      content: '>';
+      position: absolute;
+      left: -14px;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+
+    .nav-links a:hover::before {
+      opacity: 1;
+    }
+
     .nav-cta {
-      background: var(--gradient);
-      color: white !important;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600 !important;
+      border: 1px solid var(--text);
+      padding: 8px 16px;
     }
 
     .nav-cta:hover {
-      opacity: 0.9;
+      background: var(--text);
+      color: var(--bg);
     }
 
+    /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 24px;
-      position: relative;
-      z-index: 1;
     }
 
     /* Hero */
     .hero {
-      padding: 120px 0 80px;
+      padding: 100px 0 80px;
       text-align: center;
     }
 
-    .badge {
+    .terminal-header {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       padding: 8px 16px;
-      border-radius: 100px;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-dim);
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
 
-    .badge-dot {
+    .terminal-dot {
       width: 8px;
       height: 8px;
-      background: var(--accent-green);
+      background: var(--green);
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: blink 2s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.9); }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
+    }
+
+    .hero-title {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      color: var(--green);
     }
 
     h1 {
-      font-size: 64px;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 24px;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 32px;
       letter-spacing: -0.02em;
     }
 
-    h1 .gradient {
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .typing-container {
+      height: 60px;
+      margin-bottom: 40px;
     }
 
-    .hero-sub {
+    .typed-text {
       font-size: 20px;
       color: var(--text-dim);
-      max-width: 600px;
-      margin: 0 auto 48px;
-      line-height: 1.6;
     }
 
-    .hero-cta {
+    .cursor-blink {
+      display: inline-block;
+      width: 12px;
+      height: 24px;
+      background: var(--text);
+      margin-left: 4px;
+      animation: cursor 0.8s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes cursor {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Buttons */
+    .btn-row {
       display: flex;
-      gap: 16px;
       justify-content: center;
-      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 60px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
+      padding: 14px 28px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--gradient);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 40px var(--glow);
-    }
-
-    .btn-secondary {
-      background: var(--bg-card);
+      border: 1px solid var(--border);
+      background: transparent;
       color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-light);
-    }
-
-    /* Crypto badges */
-    .crypto-row {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 64px;
-      flex-wrap: wrap;
-    }
-
-    .crypto-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 12px 20px;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .crypto-badge img {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-    }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      padding: 64px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin: 64px 0;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 48px;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* How it works */
-    .section {
-      padding: 80px 0;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .section-label {
-      font-size: 13px;
-      color: var(--primary-light);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-    }
-
-    h2 {
-      font-size: 40px;
-      font-weight: 700;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .step-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      transition: all 0.3s;
+      cursor: pointer;
+      transition: all 0.15s;
       position: relative;
       overflow: hidden;
     }
 
-    .step-card::before {
+    .btn::before {
       content: '';
       position: absolute;
       top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--text);
+      transition: left 0.2s;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .btn:hover::before {
       left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--gradient);
-      opacity: 0;
-      transition: opacity 0.3s;
     }
 
-    .step-card:hover {
-      border-color: var(--border-light);
-      transform: translateY(-4px);
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
     }
 
-    .step-card:hover::before {
-      opacity: 1;
+    .btn-primary::before {
+      background: var(--bg);
     }
 
-    .step-num {
-      width: 40px;
-      height: 40px;
-      background: var(--gradient);
-      border-radius: 10px;
+    .btn-primary:hover {
+      color: var(--text);
+    }
+
+    /* Crypto ticker */
+    .crypto-ticker {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 60px;
+      overflow: hidden;
+    }
+
+    .ticker-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 20px;
+      gap: 12px;
+      font-size: 13px;
+      transition: all 0.2s;
+      cursor: default;
     }
 
-    .step-title {
-      font-size: 18px;
+    .ticker-item:hover {
+      transform: scale(1.05);
+    }
+
+    .ticker-symbol {
+      color: var(--text);
       font-weight: 600;
+    }
+
+    .ticker-price {
+      color: var(--text-dim);
+    }
+
+    .ticker-change {
+      color: var(--green);
+    }
+
+    .ticker-change.negative {
+      color: #ff4444;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+
+    .stat-box {
+      background: var(--bg);
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .stat-box:hover {
+      background: var(--bg-card);
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* How it works */
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
       margin-bottom: 12px;
     }
 
-    .step-desc {
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    /* Code blocks */
+    .code-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .code-step {
+      background: var(--bg);
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 60px 1fr 200px;
+      gap: 24px;
+      align-items: center;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .code-step:hover {
+      background: var(--bg-card);
+    }
+
+    .step-num {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .code-step:hover .step-num {
+      color: var(--text);
+    }
+
+    .step-content h3 {
       font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      font-size: 13px;
       color: var(--text-dim);
-      line-height: 1.6;
+    }
+
+    .step-code {
+      font-size: 12px;
+      color: var(--green);
+      text-align: right;
     }
 
     /* Features */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px;
     }
 
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+    .feature-box {
+      background: var(--bg);
       padding: 32px;
-      display: flex;
-      gap: 20px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .feature-box:hover {
+      background: var(--bg-card);
     }
 
     .feature-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(99, 102, 241, 0.1);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .feature-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke: var(--primary-light);
+      font-size: 24px;
+      margin-bottom: 16px;
     }
 
     .feature-title {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       margin-bottom: 8px;
     }
 
     .feature-desc {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-dim);
       line-height: 1.6;
     }
 
     /* CTA */
     .cta-section {
-      text-align: center;
       padding: 100px 0;
+      text-align: center;
     }
 
     .cta-box {
-      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 64px;
+      padding: 60px;
       position: relative;
-      overflow: hidden;
     }
 
     .cta-box::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: -1px;
+      left: 20%;
+      right: 20%;
       height: 1px;
-      background: var(--gradient);
+      background: var(--text);
     }
 
     .cta-box h2 {
@@ -464,16 +482,16 @@
     .cta-box p {
       color: var(--text-dim);
       margin-bottom: 32px;
+      font-size: 14px;
     }
 
     /* Footer */
     footer {
       border-top: 1px solid var(--border);
-      padding: 32px 48px;
+      padding: 24px 40px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--text-muted);
     }
 
@@ -491,230 +509,317 @@
       gap: 24px;
     }
 
+    /* Live activity feed */
+    .activity-feed {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 320px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .activity-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .activity-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    .activity-list {
+      max-height: 150px;
+      overflow: hidden;
+    }
+
+    .activity-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-wallet {
+      color: var(--text-dim);
+    }
+
+    .activity-amount {
+      color: var(--green);
+    }
+
+    .activity-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .activity-close:hover {
+      color: var(--text);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      nav {
-        padding: 16px 20px;
-      }
-
-      h1 {
-        font-size: 36px;
-      }
-
-      .hero-sub {
-        font-size: 16px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .stat-value {
-        font-size: 36px;
-      }
-
-      .steps-grid, .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-box {
-        padding: 40px 24px;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
+      nav { padding: 16px 20px; }
+      h1 { font-size: 32px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .code-step { grid-template-columns: 1fr; gap: 12px; }
+      .step-code { text-align: left; }
+      .features-grid { grid-template-columns: 1fr; }
+      .crypto-ticker { flex-wrap: wrap; gap: 20px; }
+      .activity-feed { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-
   <nav>
     <a href="/" class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
-          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      AIployer
+      <span class="logo-bracket">[</span>AIployer<span class="logo-bracket">]</span>
     </a>
     <div class="nav-links">
-      <a href="/#how">How It Works</a>
-      <a href="/tasks">Tasks</a>
-      <a href="/payouts">Payouts</a>
-      <a href="https://x.com/aiployer" target="_blank">X</a>
-      <a href="/tasks" class="nav-cta">Start Earning</a>
+      <a href="/#protocol">protocol</a>
+      <a href="/tasks">tasks</a>
+      <a href="/payouts">payouts</a>
+      <a href="https://x.com/aiployer" target="_blank">x.com</a>
+      <a href="/tasks" class="nav-cta">start_earning</a>
     </div>
   </nav>
 
   <div class="container">
     <section class="hero">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Network Active — 12 Workers Online
+      <div class="terminal-header">
+        <div class="terminal-dot"></div>
+        <span>system active // 23 workers online</span>
       </div>
-      <h1>Complete Tasks.<br><span class="gradient">Get Paid in Crypto.</span></h1>
-      <p class="hero-sub">
-        Pick a task, submit your work, and get paid instantly. 
-        AI verifies quality. You choose your payout — BTC, ETH, SOL, or USDC.
-      </p>
-      <div class="hero-cta">
-        <a href="/tasks" class="btn btn-primary">
-          Browse Tasks
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="/#how" class="btn btn-secondary">Learn More</a>
+      
+      <div class="hero-title"><span>$</span> ./aiployer --init</div>
+      
+      <h1>Complete Tasks.<br>Get Paid in Crypto.</h1>
+      
+      <div class="typing-container">
+        <span class="typed-text" id="typedText"></span><span class="cursor-blink"></span>
       </div>
 
-      <div class="crypto-row">
-        <div class="crypto-badge">
-          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/btc.png" alt="BTC">
-          Bitcoin
-        </div>
-        <div class="crypto-badge">
-          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png" alt="ETH">
-          Ethereum
-        </div>
-        <div class="crypto-badge">
-          <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" alt="SOL">
-          Solana
-        </div>
-        <div class="crypto-badge">
-          <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usdc.png" alt="USDC">
-          USDC
-        </div>
+      <div class="btn-row">
+        <a href="/tasks" class="btn btn-primary">browse_tasks()</a>
+        <a href="/#protocol" class="btn">read_docs</a>
       </div>
     </section>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value" id="totalPaid">$0</div>
-        <div class="stat-label">Total Paid Out</div>
+    <div class="crypto-ticker">
+      <div class="ticker-item">
+        <span class="ticker-symbol">BTC</span>
+        <span class="ticker-price">$97,432</span>
+        <span class="ticker-change">+2.4%</span>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="tasksCompleted">0</div>
-        <div class="stat-label">Tasks Completed</div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">ETH</span>
+        <span class="ticker-price">$2,847</span>
+        <span class="ticker-change">+1.8%</span>
       </div>
-      <div class="stat">
-        <div class="stat-value" id="activeWorkers">0</div>
-        <div class="stat-label">Active Workers</div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">SOL</span>
+        <span class="ticker-price">$198</span>
+        <span class="ticker-change negative">-0.5%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">USDC</span>
+        <span class="ticker-price">$1.00</span>
+        <span class="ticker-change">0.0%</span>
       </div>
     </div>
 
-    <section class="section" id="how">
-      <div class="section-header">
-        <div class="section-label">How It Works</div>
-        <h2>Three Steps to Crypto</h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-value">$<span id="totalPaid">0</span></div>
+        <div class="stat-label">total_paid</div>
       </div>
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-num">1</div>
-          <div class="step-title">Pick a Task</div>
-          <div class="step-desc">Browse available tasks ranging from content creation to development. Each task has clear requirements and fixed rewards.</div>
-        </div>
-        <div class="step-card">
-          <div class="step-num">2</div>
-          <div class="step-title">Submit Your Work</div>
-          <div class="step-desc">Complete the task and upload proof. Enter your wallet address and select your preferred payout currency.</div>
-        </div>
-        <div class="step-card">
-          <div class="step-num">3</div>
-          <div class="step-title">Get Paid Instantly</div>
-          <div class="step-desc">AI verifies your submission in seconds. Approved work triggers instant crypto transfer to your wallet.</div>
-        </div>
+      <div class="stat-box">
+        <div class="stat-value"><span id="tasksCompleted">0</span></div>
+        <div class="stat-label">tasks_done</div>
       </div>
-    </section>
+      <div class="stat-box">
+        <div class="stat-value"><span id="activeWorkers">0</span></div>
+        <div class="stat-label">workers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value"><span id="avgPayout">0</span>s</div>
+        <div class="stat-label">avg_payout</div>
+      </div>
+    </div>
 
-    <section class="section">
+    <section class="section" id="protocol">
       <div class="section-header">
-        <div class="section-label">Why AIployer</div>
-        <h2>Built for Crypto Natives</h2>
+        <div class="section-label">// protocol</div>
+        <h2>How It Works</h2>
       </div>
+      
+      <div class="code-steps">
+        <div class="code-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Pick a Task</h3>
+            <p>Browse available tasks. Each has clear specs and fixed rewards.</p>
+          </div>
+          <div class="step-code">task.select(id)</div>
+        </div>
+        <div class="code-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Submit Proof</h3>
+            <p>Complete the work. Upload proof. Enter your wallet address.</p>
+          </div>
+          <div class="step-code">proof.submit(image, wallet)</div>
+        </div>
+        <div class="code-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>AI Verification</h3>
+            <p>GPT-4 analyzes your submission for quality and accuracy.</p>
+          </div>
+          <div class="step-code">ai.verify(proof) -> bool</div>
+        </div>
+        <div class="code-step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h3>Get Paid</h3>
+            <p>Approved work triggers instant crypto transfer to your wallet.</p>
+          </div>
+          <div class="step-code">payout.execute(wallet, amount)</div>
+        </div>
+      </div>
+
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-          </div>
-          <div>
-            <div class="feature-title">Instant Payouts</div>
-            <div class="feature-desc">No invoices, no waiting periods. Approved work is paid within seconds directly to your wallet.</div>
-          </div>
+        <div class="feature-box">
+          <div class="feature-icon">[&gt;]</div>
+          <div class="feature-title">Instant Payouts</div>
+          <div class="feature-desc">No invoices, no waiting. Approved = paid. Average payout time: 12 seconds.</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <div>
-            <div class="feature-title">Multi-Chain Support</div>
-            <div class="feature-desc">Get paid in BTC, ETH, SOL, or USDC. Your choice, your wallet, your crypto.</div>
-          </div>
+        <div class="feature-box">
+          <div class="feature-icon">[+]</div>
+          <div class="feature-title">Multi-Chain</div>
+          <div class="feature-desc">Get paid in BTC, ETH, SOL, or USDC. Your choice, your wallet.</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 12l2 2 4-4"/>
-              <circle cx="12" cy="12" r="10"/>
-            </svg>
-          </div>
-          <div>
-            <div class="feature-title">AI Verification</div>
-            <div class="feature-desc">Advanced AI reviews every submission for quality and accuracy. Fair, fast, and consistent.</div>
-          </div>
+        <div class="feature-box">
+          <div class="feature-icon">[*]</div>
+          <div class="feature-title">AI Verified</div>
+          <div class="feature-desc">GPT-4 reviews every submission. Fair, fast, consistent quality checks.</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0110 0v4"/>
-            </svg>
-          </div>
-          <div>
-            <div class="feature-title">No KYC Required</div>
-            <div class="feature-desc">Just your wallet address. No accounts, no personal info, no friction.</div>
-          </div>
+        <div class="feature-box">
+          <div class="feature-icon">[~]</div>
+          <div class="feature-title">No KYC</div>
+          <div class="feature-desc">Just your wallet address. No accounts, no personal info, no friction.</div>
         </div>
       </div>
     </section>
 
     <section class="cta-section">
       <div class="cta-box">
-        <h2>Ready to Start Earning?</h2>
-        <p>Browse available tasks and get paid in your favorite crypto.</p>
-        <a href="/tasks" class="btn btn-primary">
-          View Available Tasks
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
+        <h2>Ready?</h2>
+        <p>Browse available tasks and start earning crypto.</p>
+        <a href="/tasks" class="btn btn-primary">view_tasks() -></a>
       </div>
     </section>
   </div>
 
   <footer>
-    <span>© 2026 AIployer — Crypto payouts for the AI age</span>
+    <span>aiployer v1.0.0 // crypto payouts for the ai age</span>
     <div class="footer-links">
-      <a href="https://x.com/aiployer" target="_blank">X (Twitter)</a>
-      <a href="/tasks">Tasks</a>
-      <a href="/payouts">Payouts</a>
+      <a href="https://x.com/aiployer" target="_blank">twitter</a>
+      <a href="/tasks">tasks</a>
+      <a href="/payouts">payouts</a>
     </div>
   </footer>
 
+  <!-- Live Activity Feed -->
+  <div class="activity-feed" id="activityFeed">
+    <div class="activity-header">
+      <div class="activity-title">
+        <div class="live-dot"></div>
+        <span>live_payouts</span>
+      </div>
+      <button class="activity-close" onclick="document.getElementById('activityFeed').style.display='none'">&times;</button>
+    </div>
+    <div class="activity-list" id="activityList"></div>
+  </div>
+
   <script>
+    // Typing effect
+    const phrases = [
+      'AI verifies your work in seconds.',
+      'Get paid in BTC, ETH, SOL, or USDC.',
+      'No accounts. No KYC. Just your wallet.',
+      'Average payout time: 12 seconds.',
+      'Complete tasks. Earn crypto.',
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedEl = document.getElementById('typedText');
+
+    function type() {
+      const current = phrases[phraseIndex];
+      
+      if (isDeleting) {
+        typedEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let delay = isDeleting ? 30 : 50;
+
+      if (!isDeleting && charIndex === current.length) {
+        delay = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        delay = 500;
+      }
+
+      setTimeout(type, delay);
+    }
+    type();
+
+    // Animate stats
     function animateValue(id, end, duration, prefix = '', suffix = '') {
-      const obj = document.getElementById(id);
+      const el = document.getElementById(id);
       const start = 0;
       const startTime = performance.now();
       
@@ -722,18 +827,63 @@
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        const value = start + (end * eased);
-        obj.textContent = prefix + Math.floor(value).toLocaleString() + suffix;
+        const value = Math.floor(start + (end * eased));
+        el.textContent = prefix + value.toLocaleString() + suffix;
         if (progress < 1) requestAnimationFrame(update);
       }
       requestAnimationFrame(update);
     }
 
     setTimeout(() => {
-      animateValue('totalPaid', 4720, 2000, '$');
-      animateValue('tasksCompleted', 156, 2000);
-      animateValue('activeWorkers', 23, 2000);
-    }, 300);
+      animateValue('totalPaid', 12847, 2000);
+      animateValue('tasksCompleted', 342, 2000);
+      animateValue('activeWorkers', 23, 1500);
+      animateValue('avgPayout', 12, 1500);
+    }, 500);
+
+    // Live activity feed
+    const wallets = ['7xK2...9mNp', '3fGh...2kLm', '9pQr...5vWx', '2aBc...7dEf', '8jKl...4mNo', '5tUv...1wXy'];
+    const amounts = [0.08, 0.10, 0.15, 0.18, 0.20, 0.25, 0.40, 0.50];
+    const activityList = document.getElementById('activityList');
+
+    function addActivity() {
+      const wallet = wallets[Math.floor(Math.random() * wallets.length)];
+      const amount = amounts[Math.floor(Math.random() * amounts.length)];
+      
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <span class="activity-wallet">${wallet}</span>
+        <span class="activity-amount">+${amount} SOL</span>
+      `;
+      
+      activityList.insertBefore(item, activityList.firstChild);
+      
+      if (activityList.children.length > 5) {
+        activityList.removeChild(activityList.lastChild);
+      }
+    }
+
+    // Initial activities
+    for (let i = 0; i < 3; i++) addActivity();
+    
+    // Add new activity periodically
+    setInterval(addActivity, 4000 + Math.random() * 3000);
+
+    // Update ticker prices slightly
+    setInterval(() => {
+      document.querySelectorAll('.ticker-price').forEach(el => {
+        if (el.textContent.includes('$1.00')) return;
+        const current = parseFloat(el.textContent.replace(/[$,]/g, ''));
+        const change = current * (Math.random() * 0.002 - 0.001);
+        const newVal = current + change;
+        if (newVal > 1000) {
+          el.textContent = '$' + newVal.toLocaleString(undefined, {maximumFractionDigits: 0});
+        } else {
+          el.textContent = '$' + newVal.toFixed(0);
+        }
+      });
+    }, 3000);
   </script>
 </body>
 </html>

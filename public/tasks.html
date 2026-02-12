@@ -5,252 +5,240 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasks | AIployer</title>
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --primary-dark: #4f46e5;
-      --accent: #22d3ee;
-      --accent-green: #10b981;
-      --bg: #030712;
-      --bg-card: #111827;
-      --bg-card-hover: #1f2937;
-      --border: #1f2937;
-      --border-light: #374151;
-      --text: #f9fafb;
-      --text-dim: #9ca3af;
-      --text-muted: #6b7280;
-      --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
-      --glow: rgba(99, 102, 241, 0.4);
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      --bg: #000000;
+      --bg-card: #111111;
+      --border: #222222;
+      --border-hover: #444444;
+      --text: #ffffff;
+      --text-dim: #888888;
+      --text-muted: #555555;
+      --green: #00ff00;
+      --red: #ff4444;
     }
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'JetBrains Mono', monospace;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
     }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
+      z-index: 10000;
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 48px;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      background: var(--bg);
       z-index: 100;
     }
     .logo {
-      font-size: 20px;
-      font-weight: 800;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--gradient);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .logo-icon svg { width: 20px; height: 20px; fill: white; }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
+    .logo-bracket { color: var(--text-muted); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-size: 13px;
+      transition: color 0.1s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 48px 24px;
     }
 
     .page-header {
       margin-bottom: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
     }
     .page-header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 600;
     }
     .page-header p {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .task-count {
+      font-size: 12px;
       color: var(--text-dim);
     }
 
-    .tasks-grid {
+    .tasks-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      border: 1px solid var(--border);
     }
 
-    .task-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      transition: all 0.2s;
+    .task-row {
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
+      transition: background 0.1s;
     }
-    .task-card:hover {
-      border-color: var(--border-light);
-    }
-    .task-card.expanded {
-      border-color: var(--primary);
-    }
+    .task-row:last-child { border-bottom: none; }
+    .task-row:hover { background: var(--bg-card); }
+    .task-row.expanded { background: var(--bg-card); }
 
     .task-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .task-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .task-meta {
-      display: flex;
-      gap: 16px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .task-meta span {
-      display: flex;
+      display: grid;
+      grid-template-columns: 60px 1fr 100px 80px;
       align-items: center;
-      gap: 4px;
+      padding: 20px 24px;
+      gap: 20px;
     }
 
-    .task-reward {
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 20px;
-      font-weight: 700;
-      white-space: nowrap;
+    .task-id {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .task-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
     }
 
     .difficulty {
-      padding: 4px 10px;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 600;
+      padding: 3px 8px;
+      font-size: 10px;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid;
     }
-    .difficulty.easy { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-    .difficulty.medium { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-    .difficulty.hard { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .difficulty.easy { border-color: var(--green); color: var(--green); }
+    .difficulty.medium { border-color: #ffaa00; color: #ffaa00; }
+    .difficulty.hard { border-color: var(--red); color: var(--red); }
 
-    .task-body {
+    .task-reward {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .task-expand {
       display: none;
-      margin-top: 24px;
-      padding-top: 24px;
+      padding: 0 24px 24px;
       border-top: 1px solid var(--border);
+      margin-top: -1px;
     }
-    .task-card.expanded .task-body {
-      display: block;
-    }
+    .task-row.expanded .task-expand { display: block; }
 
     .task-desc {
       color: var(--text-dim);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.6;
-      margin-bottom: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
     }
 
     .submit-form {
-      background: var(--bg);
-      border-radius: 8px;
-      padding: 20px;
+      padding-top: 24px;
     }
-    .form-group {
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
       margin-bottom: 16px;
     }
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      color: var(--text-dim);
-      margin-bottom: 6px;
-      font-weight: 500;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
     .form-group input,
     .form-group textarea,
     .form-group select {
-      width: 100%;
-      background: var(--bg-card);
+      background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 14px;
       color: var(--text);
+      padding: 12px 14px;
+      font-size: 13px;
       font-family: inherit;
+      transition: border-color 0.1s;
     }
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--text);
     }
     .form-group textarea {
       min-height: 80px;
       resize: vertical;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .file-input {
-      position: relative;
-      border: 2px dashed var(--border);
-      border-radius: 8px;
+    .file-drop {
+      border: 1px dashed var(--border);
       padding: 32px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
+      position: relative;
     }
-    .file-input:hover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
+    .file-drop:hover {
+      border-color: var(--text);
+      background: rgba(255,255,255,0.02);
     }
-    .file-input input {
+    .file-drop.dragover {
+      border-color: var(--green);
+      background: rgba(0,255,0,0.05);
+    }
+    .file-drop input {
       position: absolute;
       inset: 0;
       opacity: 0;
       cursor: pointer;
     }
-    .file-input-text {
+    .file-drop-text {
       color: var(--text-dim);
-      font-size: 14px;
+      font-size: 12px;
     }
-    .file-input-text strong {
-      color: var(--primary-light);
+    .file-drop-text strong { color: var(--text); }
+    .file-name {
+      color: var(--green);
+      font-size: 12px;
+      margin-top: 8px;
     }
 
     .btn {
@@ -259,52 +247,51 @@
       justify-content: center;
       gap: 8px;
       padding: 14px 28px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      border: none;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 500;
+      border: 1px solid var(--text);
+      background: var(--text);
+      color: var(--bg);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       width: 100%;
     }
-    .btn-primary {
-      background: var(--gradient);
-      color: white;
+    .btn:hover {
+      background: transparent;
+      color: var(--text);
     }
-    .btn-primary:hover {
-      opacity: 0.9;
-    }
-    .btn-primary:disabled {
-      opacity: 0.5;
+    .btn:disabled {
+      opacity: 0.3;
       cursor: not-allowed;
     }
 
     .result-box {
       margin-top: 16px;
       padding: 16px;
-      border-radius: 8px;
-      font-size: 14px;
+      font-size: 12px;
       display: none;
+      border: 1px solid;
     }
     .result-box.success {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid var(--success);
-      color: var(--success);
+      border-color: var(--green);
+      color: var(--green);
       display: block;
     }
     .result-box.error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid var(--danger);
-      color: var(--danger);
+      border-color: var(--red);
+      color: var(--red);
       display: block;
+    }
+    .result-box a {
+      color: inherit;
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 32px 48px;
+      padding: 24px 40px;
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 64px;
     }
@@ -312,40 +299,37 @@
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .container { padding: 24px 16px; }
-      .task-header { flex-direction: column; }
-      .form-row { grid-template-columns: 1fr; }
+      .task-header { grid-template-columns: 1fr; gap: 12px; }
+      .task-reward { text-align: left; }
+      .form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/" class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" fill="none"/><path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" fill="none"/></svg>
-      </div>
-      AIployer
-    </a>
+    <a href="/" class="logo"><span class="logo-bracket">[</span>AIployer<span class="logo-bracket">]</span></a>
     <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="/tasks" class="active">Tasks</a>
-      <a href="/payouts">Payouts</a>
+      <a href="/">home</a>
+      <a href="/tasks" class="active">tasks</a>
+      <a href="/payouts">payouts</a>
     </div>
   </nav>
 
   <div class="container">
     <div class="page-header">
-      <h1>Available Tasks</h1>
-      <p>Complete tasks and get paid in your preferred crypto</p>
+      <div>
+        <h1>available_tasks</h1>
+        <p>$ ls -la /tasks</p>
+      </div>
+      <div class="task-count" id="taskCount">loading...</div>
     </div>
 
-    <div class="tasks-grid" id="tasksGrid">
-      <div style="text-align: center; padding: 48px; color: var(--text-muted);">Loading tasks...</div>
+    <div class="tasks-list" id="tasksList">
+      <div style="padding: 48px; text-align: center; color: var(--text-muted);">loading tasks...</div>
     </div>
   </div>
 
-  <footer>
-    © 2026 AIployer
-  </footer>
+  <footer>aiployer // crypto payouts for the ai age</footer>
 
   <script>
     let tasks = [];
@@ -354,66 +338,89 @@
       try {
         const res = await fetch('/api/jobs');
         tasks = await res.json();
+        document.getElementById('taskCount').textContent = `${tasks.length} tasks available`;
         renderTasks();
       } catch (e) {
-        document.getElementById('tasksGrid').innerHTML = '<div style="text-align:center;padding:48px;color:var(--danger);">Failed to load tasks</div>';
+        document.getElementById('tasksList').innerHTML = '<div style="padding:48px;text-align:center;color:var(--red);">error: failed to load tasks</div>';
       }
     }
 
     function renderTasks() {
-      const grid = document.getElementById('tasksGrid');
-      grid.innerHTML = tasks.map(task => `
-        <div class="task-card" data-id="${task.id}" onclick="toggleTask(${task.id})">
-          <div class="task-header">
+      const list = document.getElementById('tasksList');
+      list.innerHTML = tasks.map((task, i) => `
+        <div class="task-row" data-id="${task.id}">
+          <div class="task-header" onclick="toggleTask(${task.id})">
+            <div class="task-id">#${String(task.id).padStart(3, '0')}</div>
             <div>
               <div class="task-title">${task.title}</div>
               <div class="task-meta">
                 <span class="difficulty ${task.difficulty.toLowerCase()}">${task.difficulty}</span>
-                <span>${task.timeEstimate}</span>
+                <span style="color: var(--text-muted);">${task.timeEstimate}</span>
               </div>
             </div>
+            <div></div>
             <div class="task-reward">${task.reward} SOL</div>
           </div>
-          <div class="task-body">
+          <div class="task-expand">
             <div class="task-desc">${task.description}</div>
             <form class="submit-form" onsubmit="submitTask(event, ${task.id})">
-              <div class="form-group">
-                <label>Proof (Screenshot/Image)</label>
-                <div class="file-input">
-                  <input type="file" name="image" accept="image/*" required>
-                  <div class="file-input-text"><strong>Click to upload</strong> or drag and drop</div>
+              <div class="form-group full">
+                <label>proof_image</label>
+                <div class="file-drop" id="drop-${task.id}">
+                  <input type="file" name="image" accept="image/*" required onchange="handleFile(this, ${task.id})">
+                  <div class="file-drop-text"><strong>click to upload</strong> or drag and drop</div>
+                  <div class="file-name" id="filename-${task.id}"></div>
                 </div>
               </div>
-              <div class="form-group">
-                <label>Notes (optional)</label>
-                <textarea name="proofText" placeholder="Any additional context about your submission..."></textarea>
-              </div>
-              <div class="form-row">
+              <div class="form-grid">
                 <div class="form-group">
-                  <label>Your Solana Wallet</label>
-                  <input type="text" name="wallet" placeholder="Your SOL address" required>
+                  <label>wallet_address</label>
+                  <input type="text" name="wallet" placeholder="your solana address" required>
                 </div>
                 <div class="form-group">
-                  <label>Payout Currency</label>
+                  <label>payout_currency</label>
                   <select name="currency">
                     <option value="SOL">SOL</option>
                     <option value="USDC">USDC</option>
                   </select>
                 </div>
+                <div class="form-group full">
+                  <label>notes (optional)</label>
+                  <textarea name="proofText" placeholder="additional context..."></textarea>
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary">Submit for Review</button>
+              <button type="submit" class="btn">submit_proof() -></button>
               <div class="result-box" id="result-${task.id}"></div>
             </form>
           </div>
         </div>
       `).join('');
+
+      // Setup drag and drop
+      tasks.forEach(task => {
+        const drop = document.getElementById(`drop-${task.id}`);
+        drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+        drop.addEventListener('drop', e => {
+          e.preventDefault();
+          drop.classList.remove('dragover');
+          if (e.dataTransfer.files.length) {
+            drop.querySelector('input').files = e.dataTransfer.files;
+            document.getElementById(`filename-${task.id}`).textContent = e.dataTransfer.files[0].name;
+          }
+        });
+      });
+    }
+
+    function handleFile(input, taskId) {
+      document.getElementById(`filename-${taskId}`).textContent = input.files[0]?.name || '';
     }
 
     function toggleTask(id) {
-      const card = document.querySelector(`.task-card[data-id="${id}"]`);
-      const wasExpanded = card.classList.contains('expanded');
-      document.querySelectorAll('.task-card').forEach(c => c.classList.remove('expanded'));
-      if (!wasExpanded) card.classList.add('expanded');
+      const row = document.querySelector(`.task-row[data-id="${id}"]`);
+      const wasExpanded = row.classList.contains('expanded');
+      document.querySelectorAll('.task-row').forEach(r => r.classList.remove('expanded'));
+      if (!wasExpanded) row.classList.add('expanded');
     }
 
     async function submitTask(e, jobId) {
@@ -425,34 +432,30 @@
       const resultBox = document.getElementById(`result-${jobId}`);
       
       btn.disabled = true;
-      btn.textContent = 'Submitting...';
+      btn.textContent = 'processing...';
       resultBox.className = 'result-box';
-      resultBox.style.display = 'none';
 
       const formData = new FormData(form);
       formData.append('jobId', jobId);
 
       try {
-        const res = await fetch('/api/submit', {
-          method: 'POST',
-          body: formData
-        });
+        const res = await fetch('/api/submit', { method: 'POST', body: formData });
         const data = await res.json();
 
         if (data.approved) {
           resultBox.className = 'result-box success';
-          resultBox.innerHTML = `<strong>Approved!</strong> ${data.reason}<br>Reward: ${data.reward} SOL${data.txSignature ? `<br><a href="https://solscan.io/tx/${data.txSignature}" target="_blank" style="color:inherit;">View Transaction</a>` : ''}`;
+          resultBox.innerHTML = `<strong>APPROVED</strong> // ${data.reason}<br>reward: ${data.reward} SOL${data.txSignature ? `<br><a href="https://solscan.io/tx/${data.txSignature}" target="_blank">view_tx()</a>` : ''}`;
         } else {
           resultBox.className = 'result-box error';
-          resultBox.innerHTML = `<strong>Not Approved:</strong> ${data.reason}`;
+          resultBox.innerHTML = `<strong>REJECTED</strong> // ${data.reason}`;
         }
       } catch (err) {
         resultBox.className = 'result-box error';
-        resultBox.textContent = 'Submission failed. Please try again.';
+        resultBox.textContent = 'error: submission failed';
       }
 
       btn.disabled = false;
-      btn.textContent = 'Submit for Review';
+      btn.textContent = 'submit_proof() ->';
     }
 
     loadTasks();
