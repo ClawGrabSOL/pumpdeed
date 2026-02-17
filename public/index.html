@@ -3,64 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIployer | Get Paid for Crypto Tasks</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>pumpdeed | Find Crypto Gigs, Get Paid in SOL</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     :root {
-      --bg: #000000;
-      --bg-secondary: #0a0a0a;
-      --bg-card: #111111;
-      --border: #222222;
-      --border-hover: #333333;
-      --text: #ffffff;
-      --text-dim: #888888;
-      --text-muted: #555555;
-      --accent: #ffffff;
-      --green: #00ff00;
-      --green-dim: #00aa00;
+      --bg: #ffffff;
+      --bg-secondary: #f3f4f6;
+      --bg-card: #ffffff;
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --text: #111827;
+      --text-dim: #6b7280;
+      --text-muted: #9ca3af;
+      --green: #22c55e;
+      --green-dark: #16a34a;
+      --green-light: #dcfce7;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #dbeafe;
+      --sol: #9945FF;
+      --sol-light: #f3e8ff;
     }
 
     body {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      cursor: default;
     }
 
-    ::selection {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    /* Scanlines */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.02) 0px,
-        rgba(255, 255, 255, 0.02) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      z-index: 10000;
-    }
-
-    /* Nav */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 16px 40px;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
@@ -69,839 +48,759 @@
     }
 
     .logo {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--green);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .logo-img {
-      width: 28px;
-      height: 28px;
-    }
+    .logo-img { width: 36px; height: 36px; }
+    .logo span { color: var(--text); }
 
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
-
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 13px;
-      transition: all 0.1s;
-      position: relative;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
     }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-links a::before {
-      content: '>';
-      position: absolute;
-      left: -14px;
-      opacity: 0;
-      transition: opacity 0.1s;
-    }
-
-    .nav-links a:hover::before {
-      opacity: 1;
-    }
+    .nav-links a:hover { color: var(--green); }
 
     .nav-cta {
-      border: 1px solid var(--text);
-      padding: 8px 16px;
+      background: var(--blue);
+      color: white !important;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
     }
+    .nav-cta:hover { background: var(--blue-dark); }
 
-    .nav-cta:hover {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    /* Container */
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Hero */
     .hero {
-      padding: 100px 0 80px;
+      padding: 80px 0 60px;
       text-align: center;
+      background: linear-gradient(180deg, var(--green-light) 0%, var(--bg) 100%);
     }
 
-    .terminal-header {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg-card);
+      background: var(--bg);
       border: 1px solid var(--border);
       padding: 8px 16px;
-      font-size: 12px;
+      border-radius: 100px;
+      font-size: 14px;
       color: var(--text-dim);
-      margin-bottom: 40px;
+      margin-bottom: 24px;
+      font-weight: 500;
     }
 
-    .terminal-dot {
+    .hero-badge .dot {
       width: 8px;
       height: 8px;
       background: var(--green);
       border-radius: 50%;
-      animation: blink 2s infinite;
+      animation: pulse 2s infinite;
     }
 
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0.3; }
-    }
-
-    .hero-title {
-      font-size: 14px;
-      color: var(--text-dim);
-      margin-bottom: 20px;
-    }
-
-    .hero-title span {
-      color: var(--green);
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
     }
 
     h1 {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 32px;
-      letter-spacing: -0.02em;
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+      color: var(--text);
     }
+    h1 .green { color: var(--green); }
 
-    .typing-container {
-      height: 60px;
-      margin-bottom: 40px;
-    }
-
-    .typed-text {
+    .hero-sub {
       font-size: 20px;
       color: var(--text-dim);
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
     }
 
-    .cursor-blink {
-      display: inline-block;
-      width: 12px;
-      height: 24px;
-      background: var(--text);
-      margin-left: 4px;
-      animation: cursor 0.8s infinite;
-      vertical-align: middle;
-    }
-
-    @keyframes cursor {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    /* Buttons */
-    .btn-row {
+    .search-box {
       display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 60px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      font-size: 14px;
-      font-family: inherit;
-      font-weight: 500;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-      transition: all 0.15s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--text);
-      transition: left 0.2s;
-      z-index: -1;
-    }
-
-    .btn:hover {
-      color: var(--bg);
-      border-color: var(--text);
-    }
-
-    .btn:hover::before {
-      left: 0;
-    }
-
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-      border-color: var(--text);
-    }
-
-    .btn-primary::before {
-      background: var(--bg);
-    }
-
-    .btn-primary:hover {
-      color: var(--text);
-    }
-
-    /* Crypto ticker */
-    .crypto-ticker {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 60px;
-      overflow: hidden;
-    }
-
-    .ticker-item {
-      display: flex;
-      align-items: center;
       gap: 12px;
-      font-size: 13px;
-      transition: all 0.2s;
-      cursor: default;
-    }
-
-    .ticker-item:hover {
-      transform: scale(1.05);
-    }
-
-    .ticker-symbol {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .ticker-price {
-      color: var(--text-dim);
-    }
-
-    .ticker-change {
-      color: var(--green);
-    }
-
-    .ticker-change.negative {
-      color: #ff4444;
-    }
-
-    /* Stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-bottom: 80px;
-    }
-
-    .stat-box {
+      max-width: 700px;
+      margin: 0 auto 40px;
+      padding: 8px;
       background: var(--bg);
-      padding: 32px 24px;
-      text-align: center;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .search-box:focus-within { border-color: var(--blue); }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      background: transparent;
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-btn {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
       transition: all 0.2s;
-      cursor: default;
+    }
+    .search-btn:hover { background: var(--blue-dark); }
+
+    .popular-tags {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
     }
 
-    .stat-box:hover {
-      background: var(--bg-card);
+    .tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 14px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
     }
+    .tag:hover {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-light);
+    }
+
+    .stats-strip {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .stat-item { text-align: center; }
 
     .stat-value {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
-      margin-bottom: 8px;
-      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .stat-value .sol-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--sol);
+      border-radius: 50%;
     }
 
     .stat-label {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      margin-top: 4px;
     }
 
-    /* How it works */
-    .section {
-      padding: 60px 0;
-    }
+    .jobs-section { padding: 60px 0; }
 
     .section-header {
-      margin-bottom: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
-    .section-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 12px;
-    }
+    .section-title { font-size: 24px; font-weight: 700; }
 
-    h2 {
-      font-size: 28px;
+    .view-all {
+      color: var(--blue);
+      text-decoration: none;
       font-weight: 600;
+      font-size: 15px;
     }
+    .view-all:hover { text-decoration: underline; }
 
-    /* Code blocks */
-    .code-steps {
+    .jobs-grid {
       display: flex;
       flex-direction: column;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 16px;
     }
 
-    .code-step {
-      background: var(--bg);
-      padding: 24px 32px;
+    .job-card {
       display: grid;
-      grid-template-columns: 60px 1fr 200px;
+      grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: center;
+      padding: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       transition: all 0.2s;
-      cursor: default;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .job-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
+      transform: translateY(-2px);
     }
 
-    .code-step:hover {
-      background: var(--bg-card);
+    .job-main {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
     }
 
-    .step-num {
-      font-size: 32px;
+    .job-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--green-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--green-dark);
+      flex-shrink: 0;
     }
 
-    .code-step:hover .step-num {
-      color: var(--text);
-    }
-
-    .step-content h3 {
-      font-size: 14px;
+    .job-info h3 {
+      font-size: 17px;
       font-weight: 600;
       margin-bottom: 6px;
+      color: var(--text);
+    }
+    .job-info p {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      line-height: 1.5;
     }
 
-    .step-content p {
+    .job-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .job-tag {
+      background: var(--bg-secondary);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .job-tag.urgent { background: #fef2f2; color: #dc2626; }
+    .job-tag.easy { background: var(--green-light); color: var(--green-dark); }
+
+    .job-pay { text-align: right; }
+
+    .pay-amount {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--sol);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .pay-usd {
       font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .apply-btn {
+      margin-top: 12px;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .apply-btn:hover { background: var(--green-dark); }
+
+    .how-section {
+      padding: 80px 0;
+      background: var(--bg-secondary);
+    }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .how-header h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .how-header p {
+      font-size: 18px;
       color: var(--text-dim);
     }
 
-    .step-code {
-      font-size: 12px;
-      color: var(--green);
-      text-align: right;
-    }
-
-    /* Features */
-    .features-grid {
+    .steps-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 48px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
     }
 
-    .feature-box {
+    .step-card {
+      text-align: center;
+      padding: 32px 24px;
       background: var(--bg);
-      padding: 32px;
-      transition: all 0.2s;
-      cursor: default;
+      border-radius: 16px;
+      border: 1px solid var(--border);
     }
 
-    .feature-box:hover {
-      background: var(--bg-card);
+    .step-num {
+      width: 48px;
+      height: 48px;
+      background: var(--blue);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 auto 20px;
     }
 
-    .feature-icon {
-      font-size: 24px;
-      margin-bottom: 16px;
-    }
-
-    .feature-title {
-      font-size: 14px;
+    .step-card h3 {
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
-
-    .feature-desc {
-      font-size: 13px;
+    .step-card p {
+      font-size: 14px;
       color: var(--text-dim);
       line-height: 1.6;
     }
 
-    /* CTA */
-    .cta-section {
-      padding: 100px 0;
-      text-align: center;
-    }
-
-    .cta-box {
-      border: 1px solid var(--border);
-      padding: 60px;
-      position: relative;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: 20%;
-      right: 20%;
-      height: 1px;
-      background: var(--text);
-    }
-
-    .cta-box h2 {
-      margin-bottom: 16px;
-    }
-
-    .cta-box p {
-      color: var(--text-dim);
-      margin-bottom: 32px;
-      font-size: 14px;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 40px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    footer a {
-      color: var(--text-dim);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: var(--text);
-    }
-
-    .footer-links {
-      display: flex;
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
+      padding: 60px 0;
     }
 
-    /* Live activity feed */
-    .activity-feed {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      width: 320px;
+    .feature-card {
+      padding: 32px;
       background: var(--bg);
       border: 1px solid var(--border);
-      font-size: 11px;
-      z-index: 1000;
-      overflow: hidden;
+      border-radius: 16px;
+      transition: all 0.2s;
+    }
+    .feature-card:hover { border-color: var(--green); }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--green-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 20px;
     }
 
-    .activity-header {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
+    }
+    .cta-section h2 {
+      font-size: 40px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 32px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: var(--green-dark);
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 14px;
+      color: var(--text-muted);
     }
 
-    .activity-title {
+    .footer-logo {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .live-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: blink 1s infinite;
-    }
-
-    .activity-list {
-      max-height: 150px;
-      overflow: hidden;
-    }
-
-    .activity-item {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .activity-item:last-child {
-      border-bottom: none;
-    }
-
-    .activity-wallet {
-      color: var(--text-dim);
-    }
-
-    .activity-amount {
+      font-weight: 700;
       color: var(--green);
+      font-size: 18px;
     }
+    .footer-logo img { width: 28px; height: 28px; }
 
-    .activity-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 16px;
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
     }
+    .footer-links a:hover { color: var(--green); }
 
-    .activity-close:hover {
-      color: var(--text);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      h1 { font-size: 32px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .code-step { grid-template-columns: 1fr; gap: 12px; }
-      .step-code { text-align: left; }
+    @media (max-width: 900px) {
+      h1 { font-size: 40px; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
       .features-grid { grid-template-columns: 1fr; }
-      .crypto-ticker { flex-wrap: wrap; gap: 20px; }
-      .activity-feed { display: none; }
+      .stats-strip { gap: 30px; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .nav-links { display: none; }
+      h1 { font-size: 32px; }
+      .hero { padding: 40px 0; }
+      .search-box { flex-direction: column; }
+      .job-card { grid-template-columns: 1fr; }
+      .job-pay { text-align: left; margin-top: 16px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
     }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo">
-      <img src="/logo.png" alt="AIployer" class="logo-img">
-      <span>AIployer</span>
+      <img src="/logo.png" alt="pumpdeed" class="logo-img">
+      pump<span>deed</span>
     </a>
     <div class="nav-links">
-      <a href="/#protocol">protocol</a>
-      <a href="/tasks">tasks</a>
-      <a href="/payouts">payouts</a>
-      <a href="https://x.com/aiployer" target="_blank">x.com</a>
-      <a href="/tasks" class="nav-cta">start_earning</a>
+      <a href="#jobs">Find Gigs</a>
+      <a href="#how">How It Works</a>
+      <a href="/tasks">All Tasks</a>
+      <a href="https://x.com/pumpdeed" target="_blank">Twitter</a>
+      <a href="/tasks" class="nav-cta">Post a Gig</a>
     </div>
   </nav>
 
-  <div class="container">
-    <section class="hero">
-      <div class="terminal-header">
-        <div class="terminal-dot"></div>
-        <span>system active // 7 workers online</span>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <div class="dot"></div>
+        <span>47 gigs posted today</span>
       </div>
       
-      <div class="hero-title"><span>$</span> ./aiployer --init</div>
+      <h1>Find Crypto Gigs.<br>Get Paid in <span class="green">SOL</span>.</h1>
       
-      <h1>Complete Tasks.<br>Get Paid in Crypto.</h1>
-      
-      <div class="typing-container">
-        <span class="typed-text" id="typedText"></span><span class="cursor-blink"></span>
+      <p class="hero-sub">The job board for pump.fun and Solana projects. Complete tasks, submit proof, get paid instantly. No KYC, no invoices, just SOL to your wallet.</p>
+
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search for gigs... (shilling, raids, design, dev)">
+        <button class="search-btn">Find Gigs</button>
       </div>
 
-      <div class="btn-row">
-        <a href="/tasks" class="btn btn-primary">browse_tasks()</a>
-        <a href="/#protocol" class="btn">read_docs</a>
-      </div>
-    </section>
-
-    <div class="crypto-ticker" id="cryptoTicker">
-      <div class="ticker-item">
-        <span class="ticker-symbol">BTC</span>
-        <span class="ticker-price" id="price-btc">loading...</span>
-        <span class="ticker-change" id="change-btc"></span>
-      </div>
-      <div class="ticker-item">
-        <span class="ticker-symbol">ETH</span>
-        <span class="ticker-price" id="price-eth">loading...</span>
-        <span class="ticker-change" id="change-eth"></span>
-      </div>
-      <div class="ticker-item">
-        <span class="ticker-symbol">SOL</span>
-        <span class="ticker-price" id="price-sol">loading...</span>
-        <span class="ticker-change" id="change-sol"></span>
-      </div>
-      <div class="ticker-item">
-        <span class="ticker-symbol">USDC</span>
-        <span class="ticker-price">$1.00</span>
-        <span class="ticker-change">0.0%</span>
+      <div class="popular-tags">
+        <a href="#" class="tag">Twitter Raids</a>
+        <a href="#" class="tag">Shilling</a>
+        <a href="#" class="tag">Meme Design</a>
+        <a href="#" class="tag">Bot Dev</a>
+        <a href="#" class="tag">Copywriting</a>
+        <a href="#" class="tag">Video Edits</a>
       </div>
     </div>
+  </section>
 
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-value">$<span id="totalPaid">0</span></div>
-        <div class="stat-label">total_paid</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value"><span id="tasksCompleted">0</span></div>
-        <div class="stat-label">tasks_done</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value"><span id="activeWorkers">0</span></div>
-        <div class="stat-label">workers</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value"><span id="avgPayout">0</span>s</div>
-        <div class="stat-label">avg_payout</div>
-      </div>
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-value"><span class="sol-icon"></span> 1,247</div>
+      <div class="stat-label">SOL paid out</div>
     </div>
-
-    <section class="section" id="protocol">
-      <div class="section-header">
-        <div class="section-label">// protocol</div>
-        <h2>How It Works</h2>
-      </div>
-      
-      <div class="code-steps">
-        <div class="code-step">
-          <div class="step-num">01</div>
-          <div class="step-content">
-            <h3>Pick a Task</h3>
-            <p>Browse available tasks. Each has clear specs and fixed rewards.</p>
-          </div>
-          <div class="step-code">task.select(id)</div>
-        </div>
-        <div class="code-step">
-          <div class="step-num">02</div>
-          <div class="step-content">
-            <h3>Submit Proof</h3>
-            <p>Complete the work. Upload proof. Enter your wallet address.</p>
-          </div>
-          <div class="step-code">proof.submit(image, wallet)</div>
-        </div>
-        <div class="code-step">
-          <div class="step-num">03</div>
-          <div class="step-content">
-            <h3>AI Verification</h3>
-            <p>GPT-4 analyzes your submission for quality and accuracy.</p>
-          </div>
-          <div class="step-code">ai.verify(proof) -> bool</div>
-        </div>
-        <div class="code-step">
-          <div class="step-num">04</div>
-          <div class="step-content">
-            <h3>Get Paid</h3>
-            <p>Approved work triggers instant crypto transfer to your wallet.</p>
-          </div>
-          <div class="step-code">payout.execute(wallet, amount)</div>
-        </div>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-box">
-          <div class="feature-icon">[&gt;]</div>
-          <div class="feature-title">Instant Payouts</div>
-          <div class="feature-desc">No invoices, no waiting. Approved = paid. Average payout time: 12 seconds.</div>
-        </div>
-        <div class="feature-box">
-          <div class="feature-icon">[+]</div>
-          <div class="feature-title">Multi-Chain</div>
-          <div class="feature-desc">Get paid in BTC, ETH, SOL, or USDC. Your choice, your wallet.</div>
-        </div>
-        <div class="feature-box">
-          <div class="feature-icon">[*]</div>
-          <div class="feature-title">AI Verified</div>
-          <div class="feature-desc">GPT-4 reviews every submission. Fair, fast, consistent quality checks.</div>
-        </div>
-        <div class="feature-box">
-          <div class="feature-icon">[~]</div>
-          <div class="feature-title">No KYC</div>
-          <div class="feature-desc">Just your wallet address. No accounts, no personal info, no friction.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <div class="cta-box">
-        <h2>Ready?</h2>
-        <p>Browse available tasks and start earning crypto.</p>
-        <a href="/tasks" class="btn btn-primary">view_tasks() -></a>
-      </div>
-    </section>
+    <div class="stat-item">
+      <div class="stat-value">3,892</div>
+      <div class="stat-label">Gigs completed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">842</div>
+      <div class="stat-label">Active workers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">~12s</div>
+      <div class="stat-label">Avg payout time</div>
+    </div>
   </div>
+
+  <section class="jobs-section" id="jobs">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Hot Gigs</h2>
+        <a href="/tasks" class="view-all">View all gigs →</a>
+      </div>
+
+      <div class="jobs-grid">
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">TW</div>
+            <div class="job-info">
+              <h3>Twitter Raid - $DOGE2 Launch</h3>
+              <p>Quote tweet the pinned post with bullish commentary. Must have 100+ followers. Screenshot proof required.</p>
+              <div class="job-tags">
+                <span class="job-tag easy">Easy</span>
+                <span class="job-tag">Twitter</span>
+                <span class="job-tag">5 min</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">0.05 SOL</div>
+            <div class="pay-usd">~$12.50</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">DS</div>
+            <div class="job-info">
+              <h3>Meme Pack - $CATGPT Token</h3>
+              <p>Create 5 original memes for our AI cat token. Must be shareable and include ticker. PSD files required.</p>
+              <div class="job-tags">
+                <span class="job-tag urgent">Urgent</span>
+                <span class="job-tag">Design</span>
+                <span class="job-tag">1-2 hrs</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">0.5 SOL</div>
+            <div class="pay-usd">~$125</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">TG</div>
+            <div class="job-info">
+              <h3>Telegram Shilling - 10 Groups</h3>
+              <p>Post our announcement in 10 active crypto Telegram groups. Screenshots of each post required.</p>
+              <div class="job-tags">
+                <span class="job-tag easy">Easy</span>
+                <span class="job-tag">Telegram</span>
+                <span class="job-tag">15 min</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">0.08 SOL</div>
+            <div class="pay-usd">~$20</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">VD</div>
+            <div class="job-info">
+              <h3>TikTok Video - Pump.fun Tutorial</h3>
+              <p>Create a 30-60s TikTok showing how to buy our token on pump.fun. Must get 1k+ views within 24hrs.</p>
+              <div class="job-tags">
+                <span class="job-tag">TikTok</span>
+                <span class="job-tag">Video</span>
+                <span class="job-tag">Bonus potential</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">1.0 SOL</div>
+            <div class="pay-usd">~$250</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">DV</div>
+            <div class="job-info">
+              <h3>Sniper Bot Config</h3>
+              <p>Set up and configure a pump.fun sniper bot for our team. Must include documentation and 1hr support.</p>
+              <div class="job-tags">
+                <span class="job-tag">Dev</span>
+                <span class="job-tag">Bots</span>
+                <span class="job-tag">2-4 hrs</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">2.5 SOL</div>
+            <div class="pay-usd">~$625</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+
+        <a href="/tasks" class="job-card">
+          <div class="job-main">
+            <div class="job-icon">WR</div>
+            <div class="job-info">
+              <h3>Whitepaper Writing</h3>
+              <p>Write a 3-5 page whitepaper for our DeFi token. Must include tokenomics, roadmap, and team section.</p>
+              <div class="job-tags">
+                <span class="job-tag">Writing</span>
+                <span class="job-tag">Crypto</span>
+                <span class="job-tag">4-6 hrs</span>
+              </div>
+            </div>
+          </div>
+          <div class="job-pay">
+            <div class="pay-amount">1.5 SOL</div>
+            <div class="pay-usd">~$375</div>
+            <button class="apply-btn">Apply Now</button>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section" id="how">
+    <div class="container">
+      <div class="how-header">
+        <h2>How pumpdeed Works</h2>
+        <p>Complete gigs, get paid in SOL. It's that simple.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Find a Gig</h3>
+          <p>Browse available tasks. Each has clear requirements and fixed SOL rewards.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Do the Work</h3>
+          <p>Complete the task. Take screenshots or gather proof of completion.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Submit Proof</h3>
+          <p>Upload your proof and enter your Solana wallet address.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3>Get Paid</h3>
+          <p>AI verifies your work. Approved = instant SOL to your wallet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">$</div>
+        <h3>Instant SOL Payouts</h3>
+        <p>No invoices, no waiting. Approved work triggers immediate payment to your Solana wallet.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">AI</div>
+        <h3>AI Verification</h3>
+        <p>GPT-4 reviews every submission for quality. Fast, fair, and consistent approvals.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">0</div>
+        <h3>No KYC Required</h3>
+        <p>Just your wallet address. No accounts, no personal info, no friction.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to earn SOL?</h2>
+      <p>Browse gigs and start earning crypto today.</p>
+      <a href="/tasks" class="cta-btn">Find Gigs →</a>
+    </div>
+  </section>
 
   <footer>
-    <span>aiployer v1.0.0 // crypto payouts for the ai age</span>
+    <div class="footer-logo">
+      <img src="/logo.png" alt="pumpdeed">
+      pumpdeed
+    </div>
     <div class="footer-links">
-      <a href="https://x.com/aiployer" target="_blank">twitter</a>
-      <a href="/tasks">tasks</a>
-      <a href="/payouts">payouts</a>
+      <a href="/tasks">All Gigs</a>
+      <a href="https://x.com/pumpdeed" target="_blank">Twitter</a>
+      <a href="/payouts">Payouts</a>
     </div>
   </footer>
-
-  <!-- Live Activity Feed -->
-  <div class="activity-feed" id="activityFeed">
-    <div class="activity-header">
-      <div class="activity-title">
-        <div class="live-dot"></div>
-        <span>live_payouts</span>
-      </div>
-      <button class="activity-close" onclick="document.getElementById('activityFeed').style.display='none'">&times;</button>
-    </div>
-    <div class="activity-list" id="activityList"></div>
-  </div>
-
-  <script>
-    // Typing effect
-    const phrases = [
-      'AI verifies your work in seconds.',
-      'Get paid in BTC, ETH, SOL, or USDC.',
-      'No accounts. No KYC. Just your wallet.',
-      'Average payout time: 12 seconds.',
-      'Complete tasks. Earn crypto.',
-    ];
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typedEl = document.getElementById('typedText');
-
-    function type() {
-      const current = phrases[phraseIndex];
-      
-      if (isDeleting) {
-        typedEl.textContent = current.substring(0, charIndex - 1);
-        charIndex--;
-      } else {
-        typedEl.textContent = current.substring(0, charIndex + 1);
-        charIndex++;
-      }
-
-      let delay = isDeleting ? 30 : 50;
-
-      if (!isDeleting && charIndex === current.length) {
-        delay = 2000;
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        delay = 500;
-      }
-
-      setTimeout(type, delay);
-    }
-    type();
-
-    // Animate stats
-    function animateValue(id, end, duration, prefix = '', suffix = '') {
-      const el = document.getElementById(id);
-      const start = 0;
-      const startTime = performance.now();
-      
-      function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const value = Math.floor(start + (end * eased));
-        el.textContent = prefix + value.toLocaleString() + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
-    }
-
-    setTimeout(() => {
-      animateValue('totalPaid', 247, 2000);
-      animateValue('tasksCompleted', 18, 2000);
-      animateValue('activeWorkers', 7, 1500);
-      animateValue('avgPayout', 14, 1500);
-    }, 500);
-
-    // Live activity feed
-    const wallets = ['7xK2...9mNp', '3fGh...2kLm', '9pQr...5vWx', '2aBc...7dEf', '8jKl...4mNo', '5tUv...1wXy'];
-    const amounts = [0.08, 0.10, 0.15, 0.18, 0.20, 0.25, 0.40, 0.50];
-    const activityList = document.getElementById('activityList');
-
-    function addActivity() {
-      const wallet = wallets[Math.floor(Math.random() * wallets.length)];
-      const amount = amounts[Math.floor(Math.random() * amounts.length)];
-      
-      const item = document.createElement('div');
-      item.className = 'activity-item';
-      item.innerHTML = `
-        <span class="activity-wallet">${wallet}</span>
-        <span class="activity-amount">+${amount} SOL</span>
-      `;
-      
-      activityList.insertBefore(item, activityList.firstChild);
-      
-      if (activityList.children.length > 5) {
-        activityList.removeChild(activityList.lastChild);
-      }
-    }
-
-    // Initial activities
-    for (let i = 0; i < 3; i++) addActivity();
-    
-    // Add new activity periodically
-    setInterval(addActivity, 4000 + Math.random() * 3000);
-
-    // Fetch live crypto prices
-    async function fetchPrices() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
-        const data = await res.json();
-        
-        // BTC
-        document.getElementById('price-btc').textContent = '$' + data.bitcoin.usd.toLocaleString(undefined, {maximumFractionDigits: 0});
-        const btcChange = data.bitcoin.usd_24h_change.toFixed(1);
-        document.getElementById('change-btc').textContent = (btcChange >= 0 ? '+' : '') + btcChange + '%';
-        document.getElementById('change-btc').className = 'ticker-change' + (btcChange < 0 ? ' negative' : '');
-        
-        // ETH
-        document.getElementById('price-eth').textContent = '$' + data.ethereum.usd.toLocaleString(undefined, {maximumFractionDigits: 0});
-        const ethChange = data.ethereum.usd_24h_change.toFixed(1);
-        document.getElementById('change-eth').textContent = (ethChange >= 0 ? '+' : '') + ethChange + '%';
-        document.getElementById('change-eth').className = 'ticker-change' + (ethChange < 0 ? ' negative' : '');
-        
-        // SOL
-        document.getElementById('price-sol').textContent = '$' + data.solana.usd.toLocaleString(undefined, {maximumFractionDigits: 2});
-        const solChange = data.solana.usd_24h_change.toFixed(1);
-        document.getElementById('change-sol').textContent = (solChange >= 0 ? '+' : '') + solChange + '%';
-        document.getElementById('change-sol').className = 'ticker-change' + (solChange < 0 ? ' negative' : '');
-      } catch (e) {
-        console.log('Failed to fetch prices:', e);
-      }
-    }
-    
-    fetchPrices();
-    setInterval(fetchPrices, 30000); // Refresh every 30s
-  </script>
 </body>
 </html>

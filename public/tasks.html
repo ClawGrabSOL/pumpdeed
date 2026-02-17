@@ -3,229 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tasks | AIployer</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Find Gigs | pumpdeed</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg: #000000;
-      --bg-card: #111111;
-      --border: #222222;
-      --border-hover: #444444;
-      --text: #ffffff;
-      --text-dim: #888888;
-      --text-muted: #555555;
-      --green: #00ff00;
-      --red: #ff4444;
+      --bg: #ffffff;
+      --bg-secondary: #f3f4f6;
+      --bg-card: #ffffff;
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --text: #111827;
+      --text-dim: #6b7280;
+      --text-muted: #9ca3af;
+      --green: #22c55e;
+      --green-dark: #16a34a;
+      --green-light: #dcfce7;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #dbeafe;
+      --sol: #9945FF;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --yellow: #f59e0b;
+      --yellow-light: #fef3c7;
     }
     body {
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--bg);
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-secondary);
       color: var(--text);
       min-height: 100vh;
     }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
-      z-index: 10000;
-    }
-    ::selection { background: var(--text); color: var(--bg); }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 16px 40px;
       border-bottom: 1px solid var(--border);
+      background: var(--bg);
       position: sticky;
       top: 0;
-      background: var(--bg);
       z-index: 100;
     }
     .logo {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--green);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .logo-img { width: 28px; height: 28px; }
+    .logo-img { width: 36px; height: 36px; }
+    .logo span { color: var(--text); }
     .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 13px;
-      transition: color 0.1s;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-links a:hover, .nav-links a.active { color: var(--green); }
+    .nav-cta {
+      background: var(--blue);
+      color: white !important;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--blue-dark); }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 48px 24px;
+      padding: 40px 24px;
     }
 
     .page-header {
-      margin-bottom: 48px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
+      margin-bottom: 32px;
     }
     .page-header h1 {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 28px;
+      font-weight: 700;
     }
-    .page-header p {
-      color: var(--text-muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-    .task-count {
-      font-size: 12px;
+    .gig-count {
+      font-size: 14px;
       color: var(--text-dim);
-    }
-
-    .tasks-list {
-      display: flex;
-      flex-direction: column;
+      background: var(--bg);
+      padding: 8px 16px;
+      border-radius: 100px;
       border: 1px solid var(--border);
     }
 
-    .task-row {
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background 0.1s;
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
     }
-    .task-row:last-child { border-bottom: none; }
-    .task-row:hover { background: var(--bg-card); }
-    .task-row.expanded { background: var(--bg-card); }
-
-    .task-header {
-      display: grid;
-      grid-template-columns: 60px 1fr 100px 80px;
-      align-items: center;
-      padding: 20px 24px;
-      gap: 20px;
-    }
-
-    .task-id {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .task-title {
+    .filter-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 500;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-light);
     }
 
-    .task-meta {
+    .gigs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gig-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .gig-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
+    }
+    .gig-card.expanded { border-color: var(--green); }
+
+    .gig-header {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 20px 24px;
+      cursor: pointer;
+    }
+
+    .gig-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--green-light);
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      font-size: 11px;
-    }
-
-    .difficulty {
-      padding: 3px 8px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border: 1px solid;
-    }
-    .difficulty.easy { border-color: var(--green); color: var(--green); }
-    .difficulty.medium { border-color: #ffaa00; color: #ffaa00; }
-    .difficulty.hard { border-color: var(--red); color: var(--red); }
-
-    .task-reward {
+      justify-content: center;
       font-size: 16px;
       font-weight: 700;
-      text-align: right;
+      color: var(--green-dark);
     }
 
-    .task-expand {
+    .gig-info h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .gig-info p {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .gig-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .gig-tag {
+      background: var(--bg-secondary);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .gig-tag.easy { background: var(--green-light); color: var(--green-dark); }
+    .gig-tag.medium { background: var(--yellow-light); color: var(--yellow); }
+    .gig-tag.hard { background: var(--red-light); color: var(--red); }
+    .gig-tag.urgent { background: var(--red-light); color: var(--red); }
+
+    .gig-pay { text-align: right; }
+    .pay-amount {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--sol);
+    }
+    .pay-usd {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .gig-expand {
       display: none;
       padding: 0 24px 24px;
       border-top: 1px solid var(--border);
-      margin-top: -1px;
     }
-    .task-row.expanded .task-expand { display: block; }
+    .gig-card.expanded .gig-expand { display: block; }
 
-    .task-desc {
+    .gig-desc {
+      padding: 20px 0;
+      font-size: 15px;
       color: var(--text-dim);
-      font-size: 13px;
-      line-height: 1.6;
-      padding: 24px 0;
+      line-height: 1.7;
       border-bottom: 1px solid var(--border);
     }
 
-    .submit-form {
-      padding-top: 24px;
-    }
+    .submit-form { padding-top: 24px; }
 
-    .form-grid {
+    .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-bottom: 16px;
     }
-
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
     .form-group.full { grid-column: 1 / -1; }
-
     .form-group label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 14px;
       font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 15px;
       font-family: inherit;
-      transition: border-color 0.1s;
+      color: var(--text);
+      transition: all 0.2s;
     }
     .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
+    .form-group textarea:focus {
       outline: none;
-      border-color: var(--text);
+      border-color: var(--blue);
+      background: var(--bg);
     }
     .form-group textarea {
       min-height: 80px;
       resize: vertical;
     }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+    }
 
     .file-drop {
-      border: 1px dashed var(--border);
-      padding: 32px;
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 40px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
       position: relative;
+      background: var(--bg-secondary);
     }
     .file-drop:hover {
-      border-color: var(--text);
-      background: rgba(255,255,255,0.02);
+      border-color: var(--green);
+      background: var(--green-light);
     }
     .file-drop.dragover {
       border-color: var(--green);
-      background: rgba(0,255,0,0.05);
+      background: var(--green-light);
     }
     .file-drop input {
       position: absolute;
@@ -235,173 +287,179 @@
     }
     .file-drop-text {
       color: var(--text-dim);
-      font-size: 12px;
+      font-size: 14px;
     }
     .file-drop-text strong { color: var(--text); }
     .file-name {
       color: var(--green);
-      font-size: 12px;
-      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 12px;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      font-size: 13px;
-      font-family: inherit;
-      font-weight: 500;
-      border: 1px solid var(--text);
-      background: var(--text);
-      color: var(--bg);
-      cursor: pointer;
-      transition: all 0.15s;
+    .submit-btn {
       width: 100%;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .btn:hover {
-      background: transparent;
-      color: var(--text);
-    }
-    .btn:disabled {
-      opacity: 0.3;
+    .submit-btn:hover { background: var(--green-dark); }
+    .submit-btn:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .result-box {
       margin-top: 16px;
-      padding: 16px;
-      font-size: 12px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      font-size: 14px;
       display: none;
-      border: 1px solid;
     }
     .result-box.success {
-      border-color: var(--green);
-      color: var(--green);
+      background: var(--green-light);
+      color: var(--green-dark);
+      border: 1px solid var(--green);
       display: block;
     }
     .result-box.error {
-      border-color: var(--red);
+      background: var(--red-light);
       color: var(--red);
+      border: 1px solid var(--red);
       display: block;
     }
     .result-box a {
       color: inherit;
+      font-weight: 600;
     }
 
     footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 40px;
       text-align: center;
-      font-size: 12px;
+      padding: 40px;
       color: var(--text-muted);
-      margin-top: 64px;
+      font-size: 14px;
     }
+    footer a { color: var(--green); text-decoration: none; }
 
     @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
+      nav { padding: 12px 16px; }
+      .nav-links { display: none; }
       .container { padding: 24px 16px; }
-      .task-header { grid-template-columns: 1fr; gap: 12px; }
-      .task-reward { text-align: left; }
-      .form-grid { grid-template-columns: 1fr; }
+      .gig-header { grid-template-columns: 1fr; gap: 16px; }
+      .gig-pay { text-align: left; }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/" class="logo"><img src="/logo.png" alt="AIployer" class="logo-img">AIployer</a>
+    <a href="/" class="logo"><img src="/logo.png" alt="pumpdeed" class="logo-img">pump<span>deed</span></a>
     <div class="nav-links">
-      <a href="/">home</a>
-      <a href="/tasks" class="active">tasks</a>
-      <a href="/payouts">payouts</a>
+      <a href="/">Home</a>
+      <a href="/tasks" class="active">Find Gigs</a>
+      <a href="/payouts">Payouts</a>
+      <a href="https://x.com/pumpdeed" target="_blank">Twitter</a>
+      <a href="#" class="nav-cta">Post a Gig</a>
     </div>
   </nav>
 
   <div class="container">
     <div class="page-header">
-      <div>
-        <h1>available_tasks</h1>
-        <p>$ ls -la /tasks</p>
-      </div>
-      <div class="task-count" id="taskCount">loading...</div>
+      <h1>Available Gigs</h1>
+      <span class="gig-count" id="gigCount">Loading...</span>
     </div>
 
-    <div class="tasks-list" id="tasksList">
-      <div style="padding: 48px; text-align: center; color: var(--text-muted);">loading tasks...</div>
+    <div class="filters">
+      <button class="filter-btn active">All Gigs</button>
+      <button class="filter-btn">Twitter</button>
+      <button class="filter-btn">Telegram</button>
+      <button class="filter-btn">Design</button>
+      <button class="filter-btn">Dev</button>
+      <button class="filter-btn">Writing</button>
+      <button class="filter-btn">Video</button>
+    </div>
+
+    <div class="gigs-list" id="gigsList">
+      <div style="padding: 60px; text-align: center; color: var(--text-muted);">Loading gigs...</div>
     </div>
   </div>
 
-  <footer>aiployer // crypto payouts for the ai age</footer>
+  <footer>
+    <a href="/">pumpdeed</a> — Find crypto gigs, get paid in SOL
+  </footer>
 
   <script>
-    let tasks = [];
+    const gigs = [
+      { id: 1, icon: 'TW', title: 'Twitter Raid - $DOGE2 Launch', desc: 'Quote tweet the pinned post with bullish commentary. Must have 100+ followers. Include $DOGE2 ticker and bullish commentary. Screenshot proof required.', tags: ['easy', 'Twitter', '5 min'], reward: 0.05, usd: 12.50 },
+      { id: 2, icon: 'DS', title: 'Meme Pack - $CATGPT Token', desc: 'Create 5 original memes for our AI cat token. Must be shareable and include ticker. PSD files required. No watermarks.', tags: ['urgent', 'Design', '1-2 hrs'], reward: 0.5, usd: 125 },
+      { id: 3, icon: 'TG', title: 'Telegram Shilling - 10 Groups', desc: 'Post our announcement in 10 active crypto Telegram groups. Screenshots of each post required. No spam groups, must have 500+ members.', tags: ['easy', 'Telegram', '15 min'], reward: 0.08, usd: 20 },
+      { id: 4, icon: 'VD', title: 'TikTok Video - Pump.fun Tutorial', desc: 'Create a 30-60s TikTok showing how to buy our token on pump.fun. Must get 1k+ views within 24hrs. Bonus for viral performance.', tags: ['medium', 'TikTok', 'Video'], reward: 1.0, usd: 250 },
+      { id: 5, icon: 'DV', title: 'Sniper Bot Configuration', desc: 'Set up and configure a pump.fun sniper bot for our team. Must include documentation and 1hr support. Experience with Solana required.', tags: ['hard', 'Dev', '2-4 hrs'], reward: 2.5, usd: 625 },
+      { id: 6, icon: 'WR', title: 'Whitepaper Writing', desc: 'Write a 3-5 page whitepaper for our DeFi token. Must include tokenomics, roadmap, team section, and technical architecture.', tags: ['medium', 'Writing', '4-6 hrs'], reward: 1.5, usd: 375 },
+      { id: 7, icon: 'DC', title: 'Discord Bot Setup', desc: 'Set up MEE6, Collab.Land, and custom welcome bot for our Discord. Must configure roles, verification, and anti-raid protection.', tags: ['easy', 'Discord', '1-2 hrs'], reward: 0.3, usd: 75 },
+      { id: 8, icon: 'RD', title: 'Reddit Seeding - 5 Posts', desc: 'Create 5 organic-looking posts about our token in relevant crypto subreddits. Aged accounts (6mo+) preferred. Must look natural.', tags: ['medium', 'Reddit', '30 min'], reward: 0.15, usd: 37.50 },
+      { id: 9, icon: 'DS', title: 'Logo & Banner Design', desc: 'Design a professional logo and Twitter banner for our new token. Must include multiple variations and source files.', tags: ['medium', 'Design', '2-3 hrs'], reward: 0.4, usd: 100 },
+      { id: 10, icon: 'TW', title: 'Market Analysis Thread', desc: 'Write a detailed Twitter thread (10+ tweets) analyzing our token with charts, comparisons, and bullish thesis.', tags: ['hard', 'Twitter', 'Writing'], reward: 0.25, usd: 62.50 },
+      { id: 11, icon: 'TW', title: 'Twitter Spaces Host', desc: 'Host a 30-min Twitter Space discussing our project. Must have 500+ followers and experience hosting spaces.', tags: ['medium', 'Twitter', '1 hr'], reward: 0.6, usd: 150 },
+      { id: 12, icon: 'DV', title: 'Landing Page Development', desc: 'Build a modern landing page for our token using React/Next.js. Must include wallet connect and responsive design.', tags: ['hard', 'Dev', '4-8 hrs'], reward: 3.0, usd: 750 },
+    ];
 
-    async function loadTasks() {
-      try {
-        const res = await fetch('/api/jobs');
-        tasks = await res.json();
-        document.getElementById('taskCount').textContent = `${tasks.length} tasks available`;
-        renderTasks();
-      } catch (e) {
-        document.getElementById('tasksList').innerHTML = '<div style="padding:48px;text-align:center;color:var(--red);">error: failed to load tasks</div>';
-      }
-    }
-
-    function renderTasks() {
-      const list = document.getElementById('tasksList');
-      list.innerHTML = tasks.map((task, i) => `
-        <div class="task-row" data-id="${task.id}">
-          <div class="task-header" onclick="toggleTask(${task.id})">
-            <div class="task-id">#${String(task.id).padStart(3, '0')}</div>
-            <div>
-              <div class="task-title">${task.title}</div>
-              <div class="task-meta">
-                <span class="difficulty ${task.difficulty.toLowerCase()}">${task.difficulty}</span>
-                <span style="color: var(--text-muted);">${task.timeEstimate}</span>
+    function renderGigs() {
+      document.getElementById('gigCount').textContent = `${gigs.length} gigs available`;
+      const list = document.getElementById('gigsList');
+      
+      list.innerHTML = gigs.map(gig => `
+        <div class="gig-card" data-id="${gig.id}">
+          <div class="gig-header" onclick="toggleGig(${gig.id})">
+            <div class="gig-icon">${gig.icon}</div>
+            <div class="gig-info">
+              <h3>${gig.title}</h3>
+              <div class="gig-tags">
+                ${gig.tags.map(tag => `<span class="gig-tag ${tag.toLowerCase()}">${tag}</span>`).join('')}
               </div>
             </div>
-            <div></div>
-            <div class="task-reward">${task.reward} SOL</div>
+            <div class="gig-pay">
+              <div class="pay-amount">${gig.reward} SOL</div>
+              <div class="pay-usd">~$${gig.usd.toFixed(2)}</div>
+            </div>
           </div>
-          <div class="task-expand">
-            <div class="task-desc">${task.description}</div>
-            <form class="submit-form" onsubmit="submitTask(event, ${task.id})">
+          <div class="gig-expand">
+            <div class="gig-desc">${gig.desc}</div>
+            <form class="submit-form" onsubmit="submitGig(event, ${gig.id})">
               <div class="form-group full">
-                <label>proof_image</label>
-                <div class="file-drop" id="drop-${task.id}">
-                  <input type="file" name="image" accept="image/*" required onchange="handleFile(this, ${task.id})">
-                  <div class="file-drop-text"><strong>click to upload</strong> or drag and drop</div>
-                  <div class="file-name" id="filename-${task.id}"></div>
+                <label>Proof of Completion</label>
+                <div class="file-drop" id="drop-${gig.id}">
+                  <input type="file" name="image" accept="image/*" required onchange="handleFile(this, ${gig.id})">
+                  <div class="file-drop-text"><strong>Click to upload</strong> or drag and drop</div>
+                  <div class="file-name" id="filename-${gig.id}"></div>
                 </div>
               </div>
-              <div class="form-grid">
+              <div class="form-row">
                 <div class="form-group">
-                  <label>wallet_address</label>
-                  <input type="text" name="wallet" placeholder="your solana address" required>
+                  <label>Solana Wallet Address</label>
+                  <input type="text" name="wallet" placeholder="Your SOL address" required>
                 </div>
                 <div class="form-group">
-                  <label>payout_currency</label>
-                  <select name="currency">
-                    <option value="SOL">SOL</option>
-                    <option value="USDC">USDC</option>
-                  </select>
-                </div>
-                <div class="form-group full">
-                  <label>notes (optional)</label>
-                  <textarea name="proofText" placeholder="additional context..."></textarea>
+                  <label>Notes (optional)</label>
+                  <input type="text" name="notes" placeholder="Any additional info...">
                 </div>
               </div>
-              <button type="submit" class="btn">submit_proof() -></button>
-              <div class="result-box" id="result-${task.id}"></div>
+              <button type="submit" class="submit-btn">Submit & Get Paid</button>
+              <div class="result-box" id="result-${gig.id}"></div>
             </form>
           </div>
         </div>
       `).join('');
 
-      // Setup drag and drop
-      tasks.forEach(task => {
-        const drop = document.getElementById(`drop-${task.id}`);
+      gigs.forEach(gig => {
+        const drop = document.getElementById(`drop-${gig.id}`);
         drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
         drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
         drop.addEventListener('drop', e => {
@@ -409,37 +467,38 @@
           drop.classList.remove('dragover');
           if (e.dataTransfer.files.length) {
             drop.querySelector('input').files = e.dataTransfer.files;
-            document.getElementById(`filename-${task.id}`).textContent = e.dataTransfer.files[0].name;
+            document.getElementById(`filename-${gig.id}`).textContent = e.dataTransfer.files[0].name;
           }
         });
       });
     }
 
-    function handleFile(input, taskId) {
-      document.getElementById(`filename-${taskId}`).textContent = input.files[0]?.name || '';
+    function handleFile(input, gigId) {
+      const name = input.files[0]?.name;
+      document.getElementById(`filename-${gigId}`).textContent = name || '';
     }
 
-    function toggleTask(id) {
-      const row = document.querySelector(`.task-row[data-id="${id}"]`);
-      const wasExpanded = row.classList.contains('expanded');
-      document.querySelectorAll('.task-row').forEach(r => r.classList.remove('expanded'));
-      if (!wasExpanded) row.classList.add('expanded');
+    function toggleGig(id) {
+      const card = document.querySelector(`.gig-card[data-id="${id}"]`);
+      const wasExpanded = card.classList.contains('expanded');
+      document.querySelectorAll('.gig-card').forEach(c => c.classList.remove('expanded'));
+      if (!wasExpanded) card.classList.add('expanded');
     }
 
-    async function submitTask(e, jobId) {
+    async function submitGig(e, gigId) {
       e.preventDefault();
       e.stopPropagation();
       
       const form = e.target;
       const btn = form.querySelector('button');
-      const resultBox = document.getElementById(`result-${jobId}`);
+      const resultBox = document.getElementById(`result-${gigId}`);
       
       btn.disabled = true;
-      btn.textContent = 'processing...';
+      btn.textContent = 'Submitting...';
       resultBox.className = 'result-box';
 
       const formData = new FormData(form);
-      formData.append('jobId', jobId);
+      formData.append('jobId', gigId);
 
       try {
         const res = await fetch('/api/submit', { method: 'POST', body: formData });
@@ -447,21 +506,28 @@
 
         if (data.approved) {
           resultBox.className = 'result-box success';
-          resultBox.innerHTML = `<strong>APPROVED</strong> // ${data.reason}<br>reward: ${data.reward} SOL${data.txSignature ? `<br><a href="https://solscan.io/tx/${data.txSignature}" target="_blank">view_tx()</a>` : ''}`;
+          resultBox.innerHTML = `<strong>APPROVED</strong> — ${data.reason}<br>Reward: ${data.reward} SOL${data.txSignature ? `<br><a href="https://solscan.io/tx/${data.txSignature}" target="_blank">View Transaction</a>` : ''}`;
         } else {
           resultBox.className = 'result-box error';
-          resultBox.innerHTML = `<strong>REJECTED</strong> // ${data.reason}`;
+          resultBox.innerHTML = `<strong>Not Approved</strong> — ${data.reason}`;
         }
       } catch (err) {
         resultBox.className = 'result-box error';
-        resultBox.textContent = 'error: submission failed';
+        resultBox.textContent = 'Error: Submission failed. Please try again.';
       }
 
       btn.disabled = false;
-      btn.textContent = 'submit_proof() ->';
+      btn.textContent = 'Submit & Get Paid';
     }
 
-    loadTasks();
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    renderGigs();
   </script>
 </body>
 </html>
